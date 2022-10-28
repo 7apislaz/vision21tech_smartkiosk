@@ -93,10 +93,10 @@ flutter:
   fonts:
     - family: GodoFonts
       fonts:
-        - asset: assets/GodoB.ttf
+        - asset: assets/fonts/GodoB.ttf
           weight: 700
-        - asset: assets/GodoM.ttf
-        - asset: assets/GodoM.ttf
+        - asset: assets/fonts/GodoM.ttf
+        - asset: assets/fonts/GodoM.ttf
           weight: 300
     # - family: TheCircleFonts
     #   fonts:

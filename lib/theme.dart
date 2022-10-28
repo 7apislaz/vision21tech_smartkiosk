@@ -14,5 +14,5 @@ ThemeData theme() {
     scaffoldBackgroundColor: kBackgroundColor,
     appBarTheme: appTheme(),
 
-  )
+  );
 }
