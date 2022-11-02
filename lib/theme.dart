@@ -1,18 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 
+TextTheme textTheme() {
+  return TextTheme(
+    headline1: TextStyle(
+        color: kDarkFontColor, fontFamily: 'Godo', fontWeight: FontWeight.bold),
+    bodyText1: TextStyle(
+        color: kWhiteFontColor,
+        fontFamily: 'Godo',
+        fontWeight: FontWeight.bold),
+    bodyText2: TextStyle(
+        color: kWhiteFontColor,
+        fontFamily: 'Godo',
+        fontWeight: FontWeight.bold),
+    button: TextStyle(
+        color: kDarkFontColor, fontFamily: 'Godo', fontWeight: FontWeight.bold),
+  );
+}
+
 AppBarTheme appTheme() {
   return AppBarTheme(
-    centerTitle: false,
-    color: kAppbarColor,
+    toolbarHeight: 100,
+    centerTitle: true,
+    color: kBackgroundColor,
     elevation: 0.0,
+    textTheme: TextTheme(
+      headline2: TextStyle(
+          color: kWhiteFontColor,
+          fontFamily: 'Godo',
+          fontWeight: FontWeight.bold),
+    ),
   );
 }
 
 ThemeData theme() {
   return ThemeData(
-    scaffoldBackgroundColor: kBackgroundColor,
+    scaffoldBackgroundColor: Colors.transparent,
     appBarTheme: appTheme(),
-
+    textTheme: textTheme(),
   );
 }
