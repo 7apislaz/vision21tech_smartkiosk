@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 
 TextTheme textTheme() {
-  return TextTheme(
+  return const TextTheme(
     headline1: TextStyle(
         color: kDarkFontColor, fontFamily: 'Godo', fontWeight: FontWeight.bold),
     bodyText1: TextStyle(
         color: kWhiteFontColor,
         fontFamily: 'Godo',
-        fontWeight: FontWeight.bold),
+        fontWeight: FontWeight.normal),
     bodyText2: TextStyle(
         color: kWhiteFontColor,
         fontFamily: 'Godo',
