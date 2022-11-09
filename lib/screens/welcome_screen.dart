@@ -4,7 +4,7 @@ import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/module/button.dart';
 import 'package:vision21tech_smartkiosk/screens/splash/splash_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/height_measurement_screen.dart';
-import 'package:vision21tech_smartkiosk/theme.dart';
+import 'package:vision21tech_smartkiosk/screens/measuring_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String routeName = "/main";
@@ -27,10 +27,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            InkWell(
+              onDoubleTap: (){
+                print("굿");
+              },
+              child: Container(
+                  padding: EdgeInsets.only(left: 800, bottom: 50),
+                  child: Text("")
+              ),
+            ),
           Expanded(
           flex: 2,
           child: Container(
-            margin: EdgeInsets.only(top: 180, left: 100, right: 100),
+            margin: EdgeInsets.only(top: 130, left: 100, right: 100),
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/kindergarten.png'),
@@ -63,14 +72,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   buttonColor: kOrangeButtonColor,
                   textStyle: Theme.of(context).textTheme.bodyText1,
                   onPressed: () {
-                    Get.off(SplashScreen());
+                    Get.to(MesuringScreen());
                   },
               ),
             ],
           ),
         ),
       ],
-    )),
+    ),
+      ),
     );
   }
 }
