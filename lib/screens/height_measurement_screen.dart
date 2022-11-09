@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/module/button.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
+import 'package:vision21tech_smartkiosk/screens/measurement_error.dart';
 import 'package:vision21tech_smartkiosk/theme.dart';
 
 class HeightMeasure extends StatefulWidget {
@@ -80,7 +81,7 @@ class _HeightMeasureState extends State<HeightMeasure> {
                       buttonColor: kOrangeButtonColor,
                       textStyle: Theme.of(context).textTheme.bodyText1,
                       onPressed: () {
-                        Get.off(WelcomeScreen());
+                        Get.to(MesureErrorScreen());
                       },
                     ),
                     SizedBox(width: 30),
