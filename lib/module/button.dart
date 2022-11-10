@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:vision21tech_smartkiosk/constants.dart';
-// import 'package:vision21tech_smartkiosk/theme.dart';
 
 class Kiosk_Button extends StatelessWidget {
   Kiosk_Button(
       {Key? key,
       required this.text,
-      required this.onPressed,})
+      required this.onPressed,
+      required this.maxiSize,
+      required this.miniSize,
+      required this.textScale,
+      required this.textStyle,
+      required this.buttonColor,})
       : super(key: key);
 
   final String text;
   final VoidCallback onPressed;
+  final Size maxiSize;
+  final Size miniSize;
+  final double textScale;
+  final dynamic textStyle;
+  final Color buttonColor;
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +26,9 @@ class Kiosk_Button extends StatelessWidget {
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), elevation: 0,
-            backgroundColor: kOrangeButtonColor,
-            maximumSize: Size(500, 160),
-            minimumSize: Size(500, 160),
+            backgroundColor: buttonColor,
+            maximumSize: maxiSize,
+            minimumSize: maxiSize,
           ),
           onPressed: onPressed,
           child: Padding(
@@ -31,8 +39,8 @@ class Kiosk_Button extends StatelessWidget {
             children: [
               Text(text,
                 textAlign: TextAlign.center,
-                textScaleFactor: 5,
-                style: Theme.of(context).textTheme.bodyText1,
+                textScaleFactor: textScale,
+                style: textStyle,
               ),
             ],
           ),

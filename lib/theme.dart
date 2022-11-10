@@ -10,9 +10,9 @@ TextTheme textTheme() {
         fontFamily: 'Godo',
         fontWeight: FontWeight.normal),
     bodyText2: TextStyle(
-        color: kWhiteFontColor,
+        color: kDarkFontColor,
         fontFamily: 'Godo',
-        fontWeight: FontWeight.bold),
+        fontWeight: FontWeight.normal),
     button: TextStyle(
         color: kDarkFontColor, fontFamily: 'Godo', fontWeight: FontWeight.bold),
   );
@@ -21,7 +21,6 @@ TextTheme textTheme() {
 AppBarTheme appTheme() {
   return AppBarTheme(
     toolbarHeight: 100,
-    centerTitle: true,
     color: kBackgroundColor,
     elevation: 0.0,
     textTheme: TextTheme(
