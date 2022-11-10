@@ -81,7 +81,7 @@ class _HeightMeasureState extends State<HeightMeasure> {
                       buttonColor: kOrangeButtonColor,
                       textStyle: Theme.of(context).textTheme.bodyText1,
                       onPressed: () {
-                        Get.to(MesureErrorScreen());
+                        Get.to(() => MesureErrorScreen());
                       },
                     ),
                     SizedBox(width: 30),
@@ -93,7 +93,7 @@ class _HeightMeasureState extends State<HeightMeasure> {
                       buttonColor: kGrayButtonColor,
                       textStyle: Theme.of(context).textTheme.bodyText2,
                       onPressed: () {
-                        Get.off(WelcomeScreen());
+                        Get.to(() => WelcomeScreen());
                       },
                     ),
                   ],
