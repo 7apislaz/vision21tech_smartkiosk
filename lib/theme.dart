@@ -15,6 +15,10 @@ TextTheme textTheme() {
         fontWeight: FontWeight.normal),
     button: TextStyle(
         color: kDarkFontColor, fontFamily: 'Godo', fontWeight: FontWeight.bold),
+    labelMedium: TextStyle(
+        color: kDarkFontColor,
+        fontFamily: 'Godo',
+        fontWeight: FontWeight.normal),
   );
 }
 
