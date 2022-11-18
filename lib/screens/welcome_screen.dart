@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/module/button.dart';
+import 'package:vision21tech_smartkiosk/screens/emotion_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/kiosk_setting_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/splash/splash_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/height_measurement_screen.dart';
@@ -80,7 +81,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     buttonColor: kOrangeButtonColor,
                     textStyle: Theme.of(context).textTheme.bodyText1,
                     onPressed: () {
-                      Get.to(MesuringScreen());
+                      Get.to(EmotionScreen());
                     },
                   ),
                 ],
