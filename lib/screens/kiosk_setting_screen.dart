@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/screens/network_error.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
+import 'camera_error.dart';
+import 'data_error.dart';
 // import 'package:vision21tech_smartkiosk/module/button.dart';
 // import '../constants.dart';
 
@@ -258,7 +260,7 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                           SizedBox(height: 10),
                           InkWell(
                             onTap: () {
-                              Get.to(() => WelcomeScreen());
+                              Get.to(() => DataErrorScreen());
                             },
                             child: Container(
                               padding: EdgeInsets.only(left: 20),
@@ -268,7 +270,7 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                           SizedBox(height: 10),
                           InkWell(
                             onTap: () {
-                              Get.to(() => WelcomeScreen());
+                              Get.to(() => CameraErrorScreen());
                             },
                             child: Container(
                               padding: EdgeInsets.only(left: 20),
