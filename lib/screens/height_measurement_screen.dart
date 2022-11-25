@@ -16,7 +16,9 @@ class HeightMeasure extends StatefulWidget {
 class _HeightMeasureState extends State<HeightMeasure> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return WillPopScope(
+        onWillPop: () async => false,
+    child: Container(
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.fill,
@@ -60,14 +62,6 @@ class _HeightMeasureState extends State<HeightMeasure> {
                     buildMyInfo("키와 몸무게를 확인해 주세요", 3.5, TextAlign.center, "", ""),
                   ],
                 ),
-                // child: Column(
-                //   children: [
-                //     Text("키 : ", textScaleFactor: 3, textAlign: TextAlign.left),
-                //     Text("몸무게 : ", textScaleFactor: 3,),
-                //     SizedBox(height: 30),
-                //     Text("키와 몸무게를 확인해 주세요", textScaleFactor: 3,),
-                //   ],
-                // ),
               ),
               Padding(padding: const EdgeInsets.only(top:40, left: 60.0, right: 60.0, bottom: 130.0),
                 child: Row(
@@ -100,7 +94,9 @@ class _HeightMeasureState extends State<HeightMeasure> {
                 ),
               ),
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 }
