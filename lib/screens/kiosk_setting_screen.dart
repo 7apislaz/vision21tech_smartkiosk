@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
-import 'package:vision21tech_smartkiosk/screens/network_error.dart';
+import 'package:vision21tech_smartkiosk/screens/kid_list_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 import 'camera_error.dart';
 import 'data_error.dart';
-// import 'package:vision21tech_smartkiosk/module/button.dart';
-// import '../constants.dart';
 
 class KioskSettingScreen extends StatefulWidget {
   static String routeName = "/setting";
@@ -252,7 +250,7 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                           SizedBox(height: 20),
                           InkWell(
                             onTap: () {
-                              Get.to(() => NetworkErrorScreen());
+                              Get.to(() => KidListScreen());
                             },
                             child: Container(
                               padding: EdgeInsets.only(left: 20),
