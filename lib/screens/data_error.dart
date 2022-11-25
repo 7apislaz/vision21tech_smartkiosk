@@ -15,7 +15,9 @@ class DataErrorScreen extends StatefulWidget {
 class _DataErrorScreenState extends State<DataErrorScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return WillPopScope(
+        onWillPop: () async => false,
+    child: Container(
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.fill,
@@ -58,6 +60,7 @@ class _DataErrorScreenState extends State<DataErrorScreen> {
           ),
         ),
       ),
+    ),
     );
   }
 }

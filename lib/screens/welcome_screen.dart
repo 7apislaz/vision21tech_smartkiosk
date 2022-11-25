@@ -8,6 +8,7 @@ import 'package:vision21tech_smartkiosk/screens/kiosk_setting_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/splash/splash_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/height_measurement_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/measuring_screen.dart';
+import 'package:libserialport/libserialport.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String routeName = "/main";
@@ -20,7 +21,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   int touchCount = 0;
   Widget build(BuildContext context) {
-    return Container(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Container(
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.fill,
@@ -89,6 +92,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
             ),
           ],
         ),
+      ),
       ),
     );
   }

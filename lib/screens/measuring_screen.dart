@@ -14,7 +14,9 @@ class MesuringScreen extends StatefulWidget {
 class _MesuringScreenState extends State<MesuringScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return WillPopScope(
+        onWillPop: () async => false,
+    child: Container(
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.fill,
@@ -57,7 +59,9 @@ class _MesuringScreenState extends State<MesuringScreen> {
                 ),
               ),
             ],
-          )),
+          ),
+      ),
+    ),
     );
   }
 }

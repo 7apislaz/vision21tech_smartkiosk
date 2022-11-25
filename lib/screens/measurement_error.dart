@@ -14,7 +14,9 @@ class MesureErrorScreen extends StatefulWidget {
 class _MesureErrorScreenState extends State<MesureErrorScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return WillPopScope(
+        onWillPop: () async => false,
+    child: Container(
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.fill,
@@ -58,7 +60,9 @@ class _MesureErrorScreenState extends State<MesureErrorScreen> {
                 ),
               ),
             ],
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -15,7 +15,9 @@ class CameraErrorScreen extends StatefulWidget {
 class _CameraErrorScreenState extends State<CameraErrorScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Container(
       decoration: BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.fill,
@@ -76,7 +78,7 @@ class _CameraErrorScreenState extends State<CameraErrorScreen> {
               ],
             ),
           ),
-
+        ),
         ),
       ),
     );
