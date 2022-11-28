@@ -3,12 +3,10 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/module/button.dart';
-import 'package:vision21tech_smartkiosk/screens/emotion_screen.dart';
+import 'package:vision21tech_smartkiosk/screens/emotion_kid_list_screen.dart';
+import 'package:vision21tech_smartkiosk/screens/kid_list_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/kiosk_setting_screen.dart';
-import 'package:vision21tech_smartkiosk/screens/splash/splash_screen.dart';
-import 'package:vision21tech_smartkiosk/screens/height_measurement_screen.dart';
-import 'package:vision21tech_smartkiosk/screens/measuring_screen.dart';
-import 'package:libserialport/libserialport.dart';
+
 
 class WelcomeScreen extends StatefulWidget {
   static String routeName = "/main";
@@ -72,7 +70,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     buttonColor: kOrangeButtonColor,
                     textStyle: Theme.of(context).textTheme.bodyText1,
                     onPressed: () {
-                      Get.to(() => HeightMeasure());
+                      Get.to(() => KidListScreen());
                     },
                   ),
                   SizedBox(height: 70),
@@ -84,7 +82,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     buttonColor: kOrangeButtonColor,
                     textStyle: Theme.of(context).textTheme.bodyText1,
                     onPressed: () {
-                      Get.to(EmotionScreen());
+                      Get.to(() => EmotionKidListScreen());
                     },
                   ),
                 ],
