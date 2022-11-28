@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vision21tech_smartkiosk/screens/camera_error.dart';
 import 'package:vision21tech_smartkiosk/screens/data_error.dart';
+import 'package:vision21tech_smartkiosk/screens/emotion_kid_list_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/emotion_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/height_measurement_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/kid_list_screen.dart';
@@ -25,4 +26,5 @@ final Map<String, WidgetBuilder> route = {
   EmotionScreen.routeName: (context) => EmotionScreen(),
   PlayingScreen.routeName: (context) => PlayingScreen(),
   KidListScreen.routeName: (context) => KidListScreen(),
+  EmotionKidListScreen.routeName: (context) => EmotionKidListScreen(),
 };
