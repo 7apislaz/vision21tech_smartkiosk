@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
-// import 'package:vision21tech_smartkiosk/module/button.dart';
-// import '../constants.dart';
 
 class MesuringScreen extends StatefulWidget {
-  static String routeName = "/mesureerror";
+  static String routeName = "/mesuring";
 
   @override
   _MesuringScreenState createState() => _MesuringScreenState();
@@ -53,7 +51,9 @@ class _MesuringScreenState extends State<MesuringScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("측정기 위에 올라가 주세요", textScaleFactor: 3.5,),
+                    Text("체중계 위에 서서", textScaleFactor: 3.5,),
+                    SizedBox(height: 20),
+                    Text("측정이 끝날 때까지 기다려 주세요.", textScaleFactor: 3.5,),
                     SizedBox(height: 20),
                   ],
                 ),
