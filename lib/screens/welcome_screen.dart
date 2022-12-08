@@ -100,16 +100,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           port?.setPortParameters(19600, UsbPort.DATABITS_8,
                               UsbPort.STOPBITS_1_5, UsbPort.PARITY_NONE);
                           // print first result and close port.
-                          port?.inputStream?.listen((Uint8List event) {
-                            Future.delayed(const Duration(milliseconds: 500), () {
-                              //print(ascii.decode(event));
+
+                          Future.delayed(const Duration(milliseconds: 700), () {
+                            port?.inputStream?.listen((Uint8List event) {
                               print(event);
                               print(event.length);
                             });
+                            //print(ascii.decode(event));
+                          });
 
-
-                            }
-                          );
                           Get.to(() => MesuringScreen());
                         }),
                     SizedBox(height: 70),
