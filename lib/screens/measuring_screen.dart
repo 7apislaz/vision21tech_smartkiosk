@@ -51,9 +51,9 @@ class _MesuringScreenState extends State<MesuringScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("체중계 위에 서서", textScaleFactor: 3.5,),
+                    Text("체중계 위에 서서 측정이", textScaleFactor: 3.5,),
                     SizedBox(height: 20),
-                    Text("측정이 끝날 때까지 기다려 주세요.", textScaleFactor: 3.5,),
+                    Text("끝날 때까지 기다려 주세요.", textScaleFactor: 3.5,),
                     SizedBox(height: 20),
                   ],
                 ),
