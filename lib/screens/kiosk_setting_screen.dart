@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:usb_serial/usb_serial.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
-import 'package:vision21tech_smartkiosk/screens/kid_list_screen.dart';
+import 'package:vision21tech_smartkiosk/screens/network_error.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 import 'camera_error.dart';
-import 'data_error.dart';
+import 'package:vision21tech_smartkiosk/apikidlist.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:async';
 
 class KioskSettingScreen extends StatefulWidget {
   static String routeName = "/setting";
@@ -268,7 +271,7 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                           SizedBox(height: 10),
                           InkWell(
                             onTap: () {
-                              Get.to(() => DataErrorScreen());
+                              _getInfo();
                             },
                             child: Container(
                               padding: EdgeInsets.only(left: 20),
@@ -318,6 +321,60 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
         ),
       ),
     );
+  }
+  Future<KidsList> _getInfo() async {
+    var url = 'http://192.168.219.102:8000/kindergarten/kids';
+    final response = await http.get(Uri.parse(url), headers: {
+      'Authorization': 'Api-Key GJFQ0dMp.egxBIMx8UDCatVMObiBvqV7PK0dBABQl'})
+      .timeout(Duration(seconds: 5));
+    if (response.statusCode == 200) {
+      print(jsonDecode(utf8.decode(response.bodyBytes)));
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+                titlePadding: EdgeInsets.only(
+                    top: 30, bottom: 30, right: 30, left: 30),
+                contentPadding:
+                EdgeInsets.only(right: 30, left: 30),
+                actionsPadding: EdgeInsets.only(
+                    top: 30, bottom: 30, right: 30, left: 30),
+                title: Text("Success"),
+                content: Text(
+                  "아이 데이터 갱신을 성공했습니다!",
+                  style: TextStyle(
+                    fontFamily: 'Godo',
+                    fontWeight: FontWeight.normal,
+                    fontSize: 20,
+                    color: kDarkFontColor,
+                  ),
+                ),
+                actions: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kOrangeButtonColor,
+                      maximumSize: Size(100, 60),
+                      minimumSize: Size(100, 60),
+                    ),
+                    onPressed: () {
+                      Get.back();
+                    },
+                    child: Text(
+                      "확인",
+                      style: TextStyle(
+                        color: kDarkFontColor,
+                      ),
+                    ),
+                  ),
+                ]
+            );
+          }
+      );
+      return KidsList.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      throw Exception(Get.to(() => NetworkErrorScreen()));
+    }
   }
   void _usbConnect() async {
     List<UsbDevice> devices =

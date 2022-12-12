@@ -9,7 +9,9 @@ import 'package:vision21tech_smartkiosk/screens/kid_list_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/kiosk_setting_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/measuring_screen.dart';
 import 'package:usb_serial/usb_serial.dart';
-import 'measurement_error.dart';
+import '../apikidlist.dart';
+import 'network_error.dart';
+import 'package:http/http.dart' as http;
 
 class WelcomeScreen extends StatefulWidget {
   static String routeName = "/main";
@@ -113,7 +115,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       buttonColor: kOrangeButtonColor,
                       textStyle: Theme.of(context).textTheme.bodyText1,
                       onPressed: () {
-                        Get.to(() => EmotionKidListScreen());
+                        _getInfo();
                       },
                     ),
                   ],
@@ -124,5 +126,61 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         ),
       ),
     );
+  }
+
+  Future<KidsList> _getInfo() async {
+    var url = 'http://192.168.219.102:8000/kindergarten/kids';
+    final response = await http.get(Uri.parse(url), headers: {
+      'Authorization': 'Api-Key GJFQ0dMp.egxBIMx8UDCatVMObiBvqV7PK0dBABQl'})
+        .timeout(Duration(seconds: 5));
+    if (response.statusCode == 200) {
+      print(jsonDecode(utf8.decode(response.bodyBytes)));
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+                titlePadding: EdgeInsets.only(
+                    top: 30, bottom: 30, right: 30, left: 30),
+                contentPadding:
+                EdgeInsets.only(right: 30, left: 30),
+                actionsPadding: EdgeInsets.only(
+                    top: 30, bottom: 30, right: 30, left: 30),
+                title: Text("Success"),
+                content: Text(
+                  "아이 데이터 갱신을 성공했습니다!",
+                  style: TextStyle(
+                    fontFamily: 'Godo',
+                    fontWeight: FontWeight.normal,
+                    fontSize: 20,
+                    color: kDarkFontColor,
+                  ),
+                ),
+                actions: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kOrangeButtonColor,
+                      maximumSize: Size(100, 60),
+                      minimumSize: Size(100, 60),
+                    ),
+                    onPressed: () {
+                      Get.to(() => EmotionKidListScreen());
+                    },
+                    child: Text(
+                      "확인",
+                      style: TextStyle(
+                        color: kDarkFontColor,
+                      ),
+                    ),
+                  ),
+                ]
+            );
+          }
+      );
+      return KidsList.fromJson(jsonDecode(utf8.decode(response.bodyBytes)));
+    } else {
+      throw Exception(
+          Get.to(() => NetworkErrorScreen()));
+    }
   }
 }
