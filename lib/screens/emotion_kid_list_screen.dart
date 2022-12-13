@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
+import '../apikidlist.dart';
+import '../model/apikidlist_providers.dart';
 import 'emotion_screen.dart';
 
 class EmotionKidListScreen extends StatefulWidget {
@@ -12,9 +14,25 @@ class EmotionKidListScreen extends StatefulWidget {
 }
 
 class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
-  final List<String> _items = List.generate(30, (index) => 'Item ${index + 1}');
+  var kidName = '';
+  List<KidsList> kidsLists = [];
+  bool isLoading = true;
+  ApiKidListProviders apiKidListProviders = ApiKidListProviders();
+  Future initKids() async {
+    kidsLists = (await apiKidListProviders.getKids()) as List<KidsList>;
+  }
 
-  var kidName = "";
+  @override
+  void initState() {
+    super.initState();
+    initKids().then((_) {
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+  // final List<String> _items = List.generate(30, (index) => 'Item ${index + 1}');
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -35,7 +53,8 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
               },
             ),
           ),
-          body: SafeArea(
+          body: isLoading ? Center(child: const CircularProgressIndicator(),):
+          SafeArea(
             minimum: EdgeInsets.only(top: 60, bottom: 60, right: 60, left: 60),
             child: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
@@ -46,14 +65,14 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
                   crossAxisSpacing: 6,
                   childAspectRatio: 1 / 1.5,
                 ),
-                itemCount: _items.length,
+                itemCount: kidsLists.length,
                 itemBuilder: (context, index) => Card(
                   margin: const EdgeInsets.all(6),
                   elevation: 4,
                   child: GridTile(
                     footer: GridTileBar(
                       backgroundColor: kOrangeButtonColor,
-                      title: Text('아이 ${_items[index].split(' ')[1]}',
+                      title: Text(kidsLists[index].name!,
                         style: TextStyle(
                             fontSize: 20,
                             color: kDarkFontColor,
@@ -64,7 +83,7 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
                     child: Center(
                       child: InkWell(
                         onTap: () {
-                          kidName = _items[index].split(' ')[1];
+                          kidName = kidsLists[index].name!;
                           showDialog(
                               context: context,
                               barrierDismissible: false,

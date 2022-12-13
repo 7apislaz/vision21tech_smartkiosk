@@ -29,7 +29,7 @@ class _CameraErrorScreenState extends State<CameraErrorScreen> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back_rounded, size: 60,),
             onPressed: () {
-              Get.off(WelcomeScreen());
+              Get.off(() => WelcomeScreen());
             },
           ),
           // title:

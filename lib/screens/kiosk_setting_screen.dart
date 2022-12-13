@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:usb_serial/usb_serial.dart';
+import 'package:vision21tech_smartkiosk/apikidlist.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/screens/network_error.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 import 'camera_error.dart';
-import 'package:vision21tech_smartkiosk/apikidlist.dart';
+import 'package:vision21tech_smartkiosk/model/apikidlist_providers.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -18,6 +19,12 @@ class KioskSettingScreen extends StatefulWidget {
 }
 
 class _KioskSettingScreenState extends State<KioskSettingScreen> {
+
+  List<KidsList> kidsLists = [];
+  ApiKidListProviders apiKidListProviders = ApiKidListProviders();
+  Future initKids() async {
+    kidsLists = (await apiKidListProviders.getKids()) as List<KidsList>;
+  }
 
   String inputText1 = '';
   String inputText2 = '';
@@ -271,7 +278,7 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                           SizedBox(height: 10),
                           InkWell(
                             onTap: () {
-                              _getInfo();
+                              initKids();
                             },
                             child: Container(
                               padding: EdgeInsets.only(left: 20),
@@ -322,7 +329,7 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
       ),
     );
   }
-  Future<KidsList> _getInfo() async {
+  /* Future<KidsList> _getInfo() async {
     var url = 'http://192.168.219.102:8000/kindergarten/kids';
     final response = await http.get(Uri.parse(url), headers: {
       'Authorization': 'Api-Key GJFQ0dMp.egxBIMx8UDCatVMObiBvqV7PK0dBABQl'})
@@ -375,7 +382,7 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
     } else {
       throw Exception(Get.to(() => NetworkErrorScreen()));
     }
-  }
+  } */
   void _usbConnect() async {
     List<UsbDevice> devices =
         await UsbSerial.listDevices();
