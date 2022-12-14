@@ -19,6 +19,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
     emotion: '',
   ));
 
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -74,7 +75,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     InkWell(
                       onTap: () {
                         Get.to(() => PlayingScreen(), arguments: [
-                          myData.emotion = "happy",
+                          myData.emotion = "HAPPY",
+                          myData.key,
                         ]);
                       },
                       child: Container(
@@ -104,7 +106,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     InkWell(
                       onTap: () {
                         Get.to(() => PlayingScreen(), arguments: [
-                          myData.emotion = "excited",
+                          myData.emotion = "EXCITE",
+                          myData.key,
                         ]);
                       },
                       child: Container(
@@ -140,7 +143,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     InkWell(
                       onTap: () {
                         Get.to(() => PlayingScreen(), arguments: [
-                          myData.emotion = "sad",
+                          myData.emotion = "SAD",
+                          myData.key,
                         ]);
                       },
                       child: Container(
@@ -170,7 +174,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     InkWell(
                       onTap: () {
                         Get.to(() => PlayingScreen(), arguments: [
-                          myData.emotion = "angry",
+                          myData.emotion = "ANGRY",
+                          myData.key,
                         ]);
                       },
                       child: Container(
@@ -206,7 +211,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     InkWell(
                       onTap: () {
                         Get.to(() => PlayingScreen(), arguments: [
-                          myData.emotion = "worry",
+                          myData.emotion = "WORRY",
+                          myData.key,
                         ]);
                       },
                       child: Container(
@@ -236,7 +242,8 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     InkWell(
                       onTap: () {
                         Get.to(() => PlayingScreen(), arguments: [
-                          myData.emotion = "lonely",
+                          myData.emotion = "LONELY",
+                          myData.key,
                         ]);
                       },
                       child: Container(
