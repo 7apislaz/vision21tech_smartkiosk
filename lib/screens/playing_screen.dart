@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
+import 'package:vision21tech_smartkiosk/model/apikidlist_providers.dart';
 import 'package:vision21tech_smartkiosk/module/button.dart';
 import 'package:vision21tech_smartkiosk/screens/kiosk_setting_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
@@ -15,8 +16,9 @@ class PlayingScreen extends StatefulWidget {
 
 class _PlayingScreenState extends State<PlayingScreen> {
   final MyData myData = Get.put(MyData(
-    playing: '',
+    selected_play: '',
   ));
+  final MyData postData = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +80,9 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
-                        myData.playing = "build";
+                        myData.selected_play = "BUILD";
+                        PostKidEmotions kidsEmotion = PostKidEmotions(
+                            Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -125,7 +129,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
-                                      Get.off(WelcomeScreen());
+                                      kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
                                       "맞아요!",
@@ -172,7 +176,9 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
-                        myData.playing = "mind";
+                        myData.selected_play = "MIND";
+                        PostKidEmotions kidsEmotion = PostKidEmotions(
+                            Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -219,7 +225,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
-                                      Get.off(WelcomeScreen());
+                                      kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
                                       "맞아요!",
@@ -272,7 +278,9 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
-                        myData.playing = "talk";
+                        myData.selected_play = "LANGUAGE";
+                        PostKidEmotions kidsEmotion = PostKidEmotions(
+                            Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -319,7 +327,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
-                                      Get.off(WelcomeScreen());
+                                      kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
                                       "맞아요!",
@@ -366,7 +374,9 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
-                        myData.playing = "nature";
+                        myData.selected_play = "NATURE";
+                        PostKidEmotions kidsEmotion = PostKidEmotions(
+                            Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -413,7 +423,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
-                                      Get.off(WelcomeScreen());
+                                      kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
                                       "맞아요!",
@@ -460,7 +470,9 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
-                        myData.playing = "imagine";
+                        myData.selected_play = "IMAGINE";
+                        PostKidEmotions kidsEmotion = PostKidEmotions(
+                            Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -507,7 +519,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
-                                      Get.off(WelcomeScreen());
+                                      kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
                                       "맞아요!",
@@ -560,7 +572,9 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
-                        myData.playing = "sound";
+                        myData.selected_play = "SOUND";
+                        PostKidEmotions kidsEmotion = PostKidEmotions(
+                            Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -607,7 +621,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
-                                      Get.off(WelcomeScreen());
+                                      kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
                                       "맞아요!",
@@ -654,7 +668,9 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
-                        myData.playing = "teacher";
+                        myData.selected_play = "TALK";
+                        PostKidEmotions kidsEmotions = PostKidEmotions(
+                            Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -701,7 +717,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
-                                      Get.off(WelcomeScreen());
+                                      kidsEmotions.postEmotionAll();
                                     },
                                     child: Text(
                                       "맞아요!",
