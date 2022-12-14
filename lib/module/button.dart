@@ -25,7 +25,7 @@ class Kiosk_Button extends StatelessWidget {
     return ButtonTheme(
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), elevation: 0,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)), elevation: 3,
             backgroundColor: buttonColor,
             maximumSize: maxiSize,
             minimumSize: maxiSize,
