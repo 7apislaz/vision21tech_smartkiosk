@@ -8,8 +8,7 @@ class KidsList {
   bool? localOnly;
 
   KidsList(
-      {
-        this.group,
+      {this.group,
         this.key,
         this.tag,
         this.name,
@@ -17,15 +16,25 @@ class KidsList {
         this.pic,
         this.localOnly});
 
-  factory KidsList.fromJson(Map<String, dynamic> parsedJson) {
-    return KidsList(
-      group: parsedJson['group'],
-      key: parsedJson['key'],
-      tag: parsedJson['tag'],
-      name: parsedJson['name'],
-      gender: parsedJson['gender'],
-      pic: parsedJson['pic'],
-      localOnly: parsedJson['localOnly'],
-    );
+  KidsList.fromJson(Map<String, dynamic> json) {
+    group = json['group'];
+    key = json['key'];
+    tag = json['tag'];
+    name = json['name'];
+    gender = json['gender'];
+    pic = json['pic'];
+    localOnly = json['local_only'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['group'] = this.group;
+    data['key'] = this.key;
+    data['tag'] = this.tag;
+    data['name'] = this.name;
+    data['gender'] = this.gender;
+    data['pic'] = this.pic;
+    data['local_only'] = this.localOnly;
+    return data;
   }
 }
