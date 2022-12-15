@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
-import '../mydata.dart';
+import '../data/mydata.dart';
 import 'emotion_screen.dart';
 import 'package:vision21tech_smartkiosk/model/kid_list_api.dart';
 
@@ -53,7 +53,7 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, size: 60,),
               onPressed: () {
-                Get.off(WelcomeScreen());
+                Get.off(() => WelcomeScreen());
               },
             ),
           ),

@@ -5,7 +5,7 @@ import 'package:vision21tech_smartkiosk/model/apikidlist_providers.dart';
 import 'package:vision21tech_smartkiosk/module/button.dart';
 import 'package:vision21tech_smartkiosk/screens/kiosk_setting_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
-import '../mydata.dart';
+import '../data/mydata.dart';
 
 class PlayingScreen extends StatefulWidget {
   static String routeName = "/playing";

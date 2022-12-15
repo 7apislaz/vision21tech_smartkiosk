@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:usb_serial/usb_serial.dart';
-import 'package:vision21tech_smartkiosk/apikidlist.dart';
+import 'package:vision21tech_smartkiosk/data/apikidlist.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/screens/network_error.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';

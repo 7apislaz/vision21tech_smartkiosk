@@ -5,7 +5,7 @@ import 'package:vision21tech_smartkiosk/module/button.dart';
 import 'package:vision21tech_smartkiosk/screens/kiosk_setting_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/playing_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
-import 'package:vision21tech_smartkiosk/mydata.dart';
+import 'package:vision21tech_smartkiosk/data/mydata.dart';
 
 class EmotionScreen extends StatefulWidget {
   static String routeName = "/emotion";
