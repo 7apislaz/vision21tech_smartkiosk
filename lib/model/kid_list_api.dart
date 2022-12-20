@@ -11,7 +11,7 @@ class KidListApi {
       var url = 'http://192.168.219.102:8000/kindergarten/kids';
       var response = await http.get(Uri.parse(url), headers: {
         'Authorization': 'Api-Key GJFQ0dMp.egxBIMx8UDCatVMObiBvqV7PK0dBABQl'})
-          .timeout(Duration(seconds: 8));
+          .timeout(Duration(seconds: 7));
       if (response.statusCode == 200) {
         List kidList = jsonDecode(utf8.decode(response.bodyBytes));
         print(kidList);
