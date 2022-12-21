@@ -433,8 +433,8 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
       username: _PutUsername,
       password: _PutPassword,
     ));
+    var url = '$inputText1/account/login';
     try {
-      var url = '$inputText1/account/login';
       var response = await http
           .post(Uri.parse(url),
               headers: <String, String>{'Content-Type': 'application/json'},
