@@ -23,11 +23,11 @@ class PostKidEmotions{
       key: Pkey,
     ));
     try {
-      var url = 'http://192.168.219.102:8000/check/emotions';
+      var url = 'http://192.168.219.7:8000/check/emotions';
       var response = await http.post(Uri.parse(url),
           headers: <String, String> {
           'Content-Type': 'application/json',
-          'Authorization': 'Api-Key GJFQ0dMp.egxBIMx8UDCatVMObiBvqV7PK0dBABQl'},
+          'Authorization': 'Api-Key 1FM5Gpa7.uJ74YSuFxXE7dVJVTekvzlcSOKsnFwvi'},
           body: body)
           .timeout(Duration(seconds: 5));
       if (response.statusCode == 200 || response.statusCode == 201) {
