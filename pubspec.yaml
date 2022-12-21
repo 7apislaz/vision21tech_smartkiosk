@@ -40,6 +40,7 @@ dependencies:
   permission_handler: ^10.2.0
   usb_serial: ^0.4.0
   http: ^0.13.5
+  just_audio: ^0.9.30
 
 dev_dependencies:
   flutter_test:
@@ -95,7 +96,9 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
     - assets/images/
-
+    - assets/audios/
+    - assets/audios/Emotion/
+    - assets/audios/play/
   fonts:
     - family: Godo
       fonts:
