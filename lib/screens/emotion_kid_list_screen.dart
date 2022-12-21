@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 import '../data/mydata.dart';
+import '../module/audio.dart';
 import 'emotion_screen.dart';
 import 'package:vision21tech_smartkiosk/model/kid_list_api.dart';
 
@@ -25,7 +26,7 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
   Future initKids() async {
     kidsLists = await apiKidList.getAll();
   }
-
+  ButtonAudios buttonAudios = ButtonAudios();
   @override
   void initState() {
     super.initState();
@@ -87,6 +88,7 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
                     child: Center(
                       child: InkWell(
                         onTap: () {
+                          buttonAudios.playAudio('assets/audios/hello_friend.mp3');
                           kidName = kidsLists[index]["name"]!;
                           kidPic = kidsLists[index]["pic"]!;
                           myData.key = kidsLists[index]["key"];
@@ -135,6 +137,7 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
                                         minimumSize: Size(260, 100),
                                       ),
                                       onPressed: () {
+                                        buttonAudios.playAudio('assets/audios/emotion_collect.mp3');
                                         Get.to(() => EmotionScreen(), arguments: [
                                           myData.key,
                                         ]);
@@ -154,6 +157,7 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
                                         minimumSize: Size(260, 100),
                                       ),
                                       onPressed: () {
+                                        buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                         Get.back();
                                       },
                                       child: Text(

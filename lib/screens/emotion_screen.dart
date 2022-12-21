@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
-import 'package:vision21tech_smartkiosk/module/button.dart';
-import 'package:vision21tech_smartkiosk/screens/kiosk_setting_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/playing_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 import 'package:vision21tech_smartkiosk/data/mydata.dart';
+import '../module/audio.dart';
 
 class EmotionScreen extends StatefulWidget {
   static String routeName = "/emotion";
@@ -15,10 +14,10 @@ class EmotionScreen extends StatefulWidget {
 }
 
 class _EmotionScreenState extends State<EmotionScreen> {
+  ButtonAudios buttonAudios = ButtonAudios();
   final MyData myData = Get.put(MyData(
     emotion: '',
   ));
-
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +38,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                 size: 60,
               ),
               onPressed: () {
-                Get.off(WelcomeScreen());
+                Get.off(() => WelcomeScreen());
               },
             ),
           ),
@@ -51,13 +50,9 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     const EdgeInsets.only(top: 80, left: 100.0, right: 100.0),
                 child: Column(
                   children: [
-                    Text(
-                      "오늘 어린이집에 오기 전에",
-                      textScaleFactor: 3.2,
-                    ),
                     SizedBox(height: 10),
                     Text(
-                      "집에서 너의 마음은 어땠니?",
+                      "지금 너의 마음은 어떠니?",
                       textScaleFactor: 3.2,
                     ),
                     SizedBox(
@@ -74,6 +69,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                   children: [
                     InkWell(
                       onTap: () {
+                        buttonAudios.playAudio('assets/audios/Emotion/happy2.mp3');
                         Get.to(() => PlayingScreen(), arguments: [
                           myData.emotion = "HAPPY",
                           myData.key,
@@ -105,6 +101,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     ),
                     InkWell(
                       onTap: () {
+                        buttonAudios.playAudio('assets/audios/Emotion/joy1.mp3');
                         Get.to(() => PlayingScreen(), arguments: [
                           myData.emotion = "EXCITE",
                           myData.key,
@@ -142,6 +139,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                   children: [
                     InkWell(
                       onTap: () {
+                        buttonAudios.playAudio('assets/audios/Emotion/sad.mp3');
                         Get.to(() => PlayingScreen(), arguments: [
                           myData.emotion = "SAD",
                           myData.key,
@@ -173,6 +171,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     ),
                     InkWell(
                       onTap: () {
+                        buttonAudios.playAudio('assets/audios/Emotion/angry.mp3');
                         Get.to(() => PlayingScreen(), arguments: [
                           myData.emotion = "ANGRY",
                           myData.key,
@@ -210,6 +209,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                   children: [
                     InkWell(
                       onTap: () {
+                        buttonAudios.playAudio('assets/audios/Emotion/worry.mp3');
                         Get.to(() => PlayingScreen(), arguments: [
                           myData.emotion = "WORRY",
                           myData.key,

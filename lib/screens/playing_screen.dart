@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/model/apikidlist_providers.dart';
-import 'package:vision21tech_smartkiosk/module/button.dart';
-import 'package:vision21tech_smartkiosk/screens/kiosk_setting_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 import '../data/mydata.dart';
+import '../module/audio.dart';
 
 class PlayingScreen extends StatefulWidget {
   static String routeName = "/playing";
@@ -19,7 +18,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
     selected_play: '',
   ));
   final MyData postData = Get.find();
-
+  ButtonAudios buttonAudios = ButtonAudios();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -80,6 +79,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
+                        buttonAudios.playAudio('assets/audios/play/block.mp3');
                         myData.selected_play = "BUILD";
                         PostKidEmotions kidsEmotion = PostKidEmotions(
                             Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
@@ -176,6 +176,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
+                        buttonAudios.playAudio('assets/audios/play/role.mp3');
                         myData.selected_play = "MIND";
                         PostKidEmotions kidsEmotion = PostKidEmotions(
                             Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
@@ -278,6 +279,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
+                        buttonAudios.playAudio('assets/audios/play/language.mp3');
                         myData.selected_play = "LANGUAGE";
                         PostKidEmotions kidsEmotion = PostKidEmotions(
                             Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
@@ -374,6 +376,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
+                        buttonAudios.playAudio('assets/audios/play/math.mp3');
                         myData.selected_play = "NATURE";
                         PostKidEmotions kidsEmotion = PostKidEmotions(
                             Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
@@ -470,6 +473,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
+                        buttonAudios.playAudio('assets/audios/play/art.mp3');
                         myData.selected_play = "IMAGINE";
                         PostKidEmotions kidsEmotion = PostKidEmotions(
                             Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
@@ -572,6 +576,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
+                        buttonAudios.playAudio('assets/audios/play/music.mp3');
                         myData.selected_play = "SOUND";
                         PostKidEmotions kidsEmotion = PostKidEmotions(
                             Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
@@ -668,6 +673,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
+                        buttonAudios.playAudio('assets/audios/play/talk.mp3');
                         myData.selected_play = "TALK";
                         PostKidEmotions kidsEmotions = PostKidEmotions(
                             Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');

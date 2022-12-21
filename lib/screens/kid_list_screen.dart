@@ -4,6 +4,7 @@ import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/screens/height_measurement_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 import 'package:vision21tech_smartkiosk/model/kid_list_api.dart';
+import '../module/audio.dart';
 
 class KidListScreen extends StatefulWidget {
   static String routeName = "/kidlist";
@@ -21,7 +22,7 @@ class _KidListScreenState extends State<KidListScreen> {
   Future initKids() async {
     kidsLists = await apiKidList.getAll();
   }
-
+  ButtonAudios buttonAudios = ButtonAudios();
   @override
   void initState() {
     super.initState();
@@ -82,6 +83,7 @@ class _KidListScreenState extends State<KidListScreen> {
                     child: Center(
                       child: InkWell(
                         onTap: () {
+                          buttonAudios.playAudio('assets/audios/hello_friend.mp3');
                           kidName = kidsLists[index]["name"]!;
                           kidPic = kidsLists[index]["pic"]!;
                           showDialog(
@@ -129,6 +131,7 @@ class _KidListScreenState extends State<KidListScreen> {
                                         minimumSize: Size(260, 100),
                                       ),
                                       onPressed: () {
+                                        buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                         Get.to(() => HeightMeasure());
                                       },
                                       child: Text(
@@ -146,6 +149,7 @@ class _KidListScreenState extends State<KidListScreen> {
                                         minimumSize: Size(260, 100),
                                       ),
                                       onPressed: () {
+                                        buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                         Get.back();
                                       },
                                       child: Text(

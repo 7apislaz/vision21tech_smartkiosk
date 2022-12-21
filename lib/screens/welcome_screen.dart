@@ -1,17 +1,11 @@
-import 'dart:typed_data';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/interceptors/get_modifiers.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/module/button.dart';
 import 'package:vision21tech_smartkiosk/screens/emotion_kid_list_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/kid_list_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/kiosk_setting_screen.dart';
-import 'package:vision21tech_smartkiosk/screens/measuring_screen.dart';
-import 'package:usb_serial/usb_serial.dart';
-import '../model/apikidlist_providers.dart';
-import 'package:http/http.dart' as http;
+import 'package:vision21tech_smartkiosk/module/audio.dart';
 
 class WelcomeScreen extends StatefulWidget {
   static String routeName = "/main";
@@ -21,6 +15,7 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  ButtonAudios buttonAudios = ButtonAudios();
 
   @override
   int touchCount = 0;
@@ -80,6 +75,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         buttonColor: kOrangeButtonColor,
                         textStyle: Theme.of(context).textTheme.bodyText1,
                         onPressed: () {
+                          buttonAudios.playAudio('assets/audios/button_effect.mp3');
                           Get.to(() => KidListScreen());
                         }),
                     SizedBox(height: 70),
@@ -91,6 +87,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       buttonColor: kOrangeButtonColor,
                       textStyle: Theme.of(context).textTheme.bodyText1,
                       onPressed: () {
+                        buttonAudios.playAudio('assets/audios/button_effect.mp3');
                         Get.to(() => EmotionKidListScreen());
                       },
                     ),
