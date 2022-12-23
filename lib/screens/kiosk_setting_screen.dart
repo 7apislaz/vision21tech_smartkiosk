@@ -8,6 +8,7 @@ import 'package:vision21tech_smartkiosk/screens/network_error.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 import 'camera_error.dart';
 import 'package:vision21tech_smartkiosk/model/apikidlist_providers.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
@@ -20,12 +21,14 @@ class KioskSettingScreen extends StatefulWidget {
 }
 
 class _KioskSettingScreenState extends State<KioskSettingScreen> {
+  GetStorage storage = GetStorage();
   String inputText1 = '';
   String inputText2 = '';
   String inputText3 = '';
 
   String _PutUsername = '';
   String _PutPassword = '';
+
 
   final TextEditingController _textController1 = TextEditingController();
   final TextEditingController _textController2 = TextEditingController();
@@ -109,7 +112,7 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                                   });
                                 },
                                 decoration: InputDecoration(
-                                  labelText: "키오스크 IP 주소",
+                                  labelText: "새 키오스크 IP 주소",
                                   labelStyle: TextStyle(
                                       color: myFocusNode1.hasFocus
                                           ? kOrangeButtonColor
@@ -137,6 +140,9 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                                       size: 35,
                                     ),
                                     onPressed: () {
+                                      if (inputText1.isEmpty) {
+                                          return _ipVail();
+                                        }
                                       _loginIP();
                                     },
                                   ),
@@ -145,7 +151,7 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          Text("키오스크의 IP 주소는 " + "$inputText1" + "입니다.",
+                          Text("현재 키오스크 IP 주소는 ${storage.read('url')}입니다.",
                               textScaleFactor: 1.5),
                           SizedBox(height: 20),
                           InkWell(
@@ -433,15 +439,57 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
       username: _PutUsername,
       password: _PutPassword,
     ));
-    var url = '$inputText1/account/login';
+    var url = '$inputText1/account/login/';
     try {
       var response = await http
           .post(Uri.parse(url),
-              headers: <String, String>{'Content-Type': 'application/json'},
+              headers: {'Content-Type': 'application/json'},
               body: body)
-          .timeout(Duration(seconds: 5));
-      if (response.statusCode == 200) {
-        return;
+          .timeout(Duration(seconds: 7));
+      if (response.statusCode == 202) {
+        storage.write('url', inputText1);
+        List myToken = jsonDecode(utf8.decode(response.bodyBytes));
+        String storageToken = myToken[0]["token"];
+        storage.write('token', storageToken);
+        return showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                  titlePadding:
+                  EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
+                  contentPadding: EdgeInsets.only(right: 30, left: 30),
+                  actionsPadding:
+                  EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
+                  title: Text("로그인에 성공하셨습니다. $storageToken"),
+                  content: Text(
+                    response.body,
+                    style: TextStyle(
+                      fontFamily: 'Godo',
+                      fontWeight: FontWeight.normal,
+                      fontSize: 20,
+                      color: kDarkFontColor,
+                    ),
+                  ),
+                  actions: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: kOrangeButtonColor,
+                        maximumSize: Size(100, 60),
+                        minimumSize: Size(100, 60),
+                      ),
+                      onPressed: () {
+                        Get.back();
+                      },
+                      child: Text(
+                        "확인",
+                        style: TextStyle(
+                          color: kDarkFontColor,
+                        ),
+                      ),
+                    ),
+                  ]);
+            });
       } else {
         showDialog(
             context: context,
@@ -455,7 +503,7 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                       EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
                   title: Text("Error"),
                   content: Text(
-                    "IP주소를 확인해주세요.",
+                    "$url 오류코드 : ${response.statusCode}\n관리자에게 오류코드를 문의하세요.",
                     style: TextStyle(
                       fontFamily: 'Godo',
                       fontWeight: FontWeight.normal,
@@ -495,20 +543,21 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             titlePadding:
-                EdgeInsets.only(top: 100, bottom: 60, right: 40, left: 40),
+                EdgeInsets.only(top: 60, bottom: 40, right: 60, left: 60),
             contentPadding: EdgeInsets.only(right: 60, left: 60),
             actionsPadding:
-                EdgeInsets.only(top: 60, bottom: 100, right: 60, left: 60),
+                EdgeInsets.only(top: 40, bottom: 60, right: 60, left: 60),
             actionsAlignment: MainAxisAlignment.center,
             title: Text('키오스크 서버 로그인',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: 'Godo',
                   fontWeight: FontWeight.normal,
-                  fontSize: 50,
+                  fontSize: 30,
                   color: kDarkFontColor,
                 )),
             content: Column(
+              mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -543,6 +592,7 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 20,),
                   InkWell(
                     child: SizedBox(
                       height: 60,
@@ -580,32 +630,32 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kOrangeButtonColor,
-                  maximumSize: Size(260, 100),
-                  minimumSize: Size(260, 100),
+                  maximumSize: Size(130, 50),
+                  minimumSize: Size(130, 50),
                 ),
                 onPressed: () {
                   _ipAddPost();
                 },
                 child: Text(
                   "로그인",
-                  style: TextStyle(fontSize: 30),
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
               SizedBox(
-                width: 40,
+                width: 20,
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: kGrayButtonColor,
-                  maximumSize: Size(260, 100),
-                  minimumSize: Size(260, 100),
+                  maximumSize: Size(130, 50),
+                  minimumSize: Size(130, 50),
                 ),
                 onPressed: () {
                   Get.back();
                 },
                 child: Text(
                   "뒤로가기",
-                  style: TextStyle(fontSize: 30, color: kDarkFontColor),
+                  style: TextStyle(fontSize: 20, color: kDarkFontColor),
                 ),
               ),
             ],
@@ -668,5 +718,46 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
     await port?.setRTS(true);
     port?.setPortParameters(
         9600, UsbPort.DATABITS_8, UsbPort.STOPBITS_1, UsbPort.PARITY_NONE);
+  }
+  void _ipVail() async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              titlePadding:
+              EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
+              contentPadding: EdgeInsets.only(right: 30, left: 30),
+              actionsPadding:
+              EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
+              title: Text("Error"),
+              content: Text(
+                "새 키오스크 IP주소를 입력해주세요.",
+                style: TextStyle(
+                  fontFamily: 'Godo',
+                  fontWeight: FontWeight.normal,
+                  fontSize: 20,
+                  color: kDarkFontColor,
+                ),
+              ),
+              actions: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: kOrangeButtonColor,
+                    maximumSize: Size(100, 60),
+                    minimumSize: Size(100, 60),
+                  ),
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Text(
+                    "확인",
+                    style: TextStyle(
+                      color: kDarkFontColor,
+                    ),
+                  ),
+                ),
+              ]);
+        });
   }
 }
