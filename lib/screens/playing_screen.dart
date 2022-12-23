@@ -19,6 +19,9 @@ class _PlayingScreenState extends State<PlayingScreen> {
   ));
   final MyData postData = Get.find();
   ButtonAudios buttonAudios = ButtonAudios();
+  ButtonAudios buttonAudios1 = ButtonAudios();
+  @override
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -38,6 +41,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                 size: 60,
               ),
               onPressed: () {
+                buttonAudios.playAudio('assets/audios/button_effect.mp3');
                 Get.off(WelcomeScreen());
               },
             ),
@@ -129,6 +133,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio("assets/start_play.mp3");
                                       kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
@@ -146,6 +151,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                       Get.back();
                                     },
                                     child: Text(
@@ -226,6 +232,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio("assets/start_play.mp3");
                                       kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
@@ -243,6 +250,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                       Get.back();
                                     },
                                     child: Text(
@@ -329,6 +337,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio("assets/start_play.mp3");
                                       kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
@@ -346,6 +355,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                       Get.back();
                                     },
                                     child: Text(
@@ -426,6 +436,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio("assets/start_play.mp3");
                                       kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
@@ -443,6 +454,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                       Get.back();
                                     },
                                     child: Text(
@@ -523,6 +535,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio("assets/start_play.mp3");
                                       kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
@@ -540,6 +553,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                       Get.back();
                                     },
                                     child: Text(
@@ -626,6 +640,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio("assets/start_play.mp3");
                                       kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
@@ -643,6 +658,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                       Get.back();
                                     },
                                     child: Text(
@@ -723,6 +739,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio("assets/start_play.mp3");
                                       kidsEmotions.postEmotionAll();
                                     },
                                     child: Text(
@@ -740,6 +757,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                       Get.back();
                                     },
                                     child: Text(

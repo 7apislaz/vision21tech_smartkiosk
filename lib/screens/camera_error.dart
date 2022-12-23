@@ -5,6 +5,8 @@ import 'package:vision21tech_smartkiosk/module/button.dart';
 import 'package:vision21tech_smartkiosk/screens/kiosk_setting_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 
+import '../module/audio.dart';
+
 class CameraErrorScreen extends StatefulWidget {
   static String routeName = "/cameraerror";
 
@@ -13,6 +15,7 @@ class CameraErrorScreen extends StatefulWidget {
 }
 
 class _CameraErrorScreenState extends State<CameraErrorScreen> {
+  ButtonAudios buttonAudios = ButtonAudios();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -29,6 +32,7 @@ class _CameraErrorScreenState extends State<CameraErrorScreen> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back_rounded, size: 60,),
             onPressed: () {
+              buttonAudios.playAudio('assets/audios/button_effect.mp3');
               Get.off(() => WelcomeScreen());
             },
           ),
@@ -57,6 +61,7 @@ class _CameraErrorScreenState extends State<CameraErrorScreen> {
                         buttonColor: kOrangeButtonColor,
                         textStyle: Theme.of(context).textTheme.bodyText1,
                         onPressed: () {
+                          buttonAudios.playAudio('assets/audios/button_effect.mp3');
                           Get.to(() => WelcomeScreen());
                         },
                       ),
@@ -69,6 +74,7 @@ class _CameraErrorScreenState extends State<CameraErrorScreen> {
                         buttonColor: kGrayButtonColor,
                         textStyle: Theme.of(context).textTheme.bodyText2,
                         onPressed: () {
+                          buttonAudios.playAudio('assets/audios/button_effect.mp3');
                           Get.to(() => KioskSettingScreen());
                         },
                       ),

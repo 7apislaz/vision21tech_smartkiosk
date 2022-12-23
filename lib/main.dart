@@ -4,8 +4,10 @@ import 'package:vision21tech_smartkiosk/theme.dart';
 import 'routes.dart';
 import 'screens/splash/splash_screen.dart';
 import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
   runApp(MyApp());
 }
 

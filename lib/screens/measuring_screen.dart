@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 
+import '../module/audio.dart';
+
 class MesuringScreen extends StatefulWidget {
   static String routeName = "/mesuring";
 
@@ -10,6 +12,7 @@ class MesuringScreen extends StatefulWidget {
 }
 
 class _MesuringScreenState extends State<MesuringScreen> {
+  ButtonAudios buttonAudios = ButtonAudios();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -26,6 +29,7 @@ class _MesuringScreenState extends State<MesuringScreen> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, size: 60,),
               onPressed: () {
+                buttonAudios.playAudio('assets/audios/button_effect.mp3');
                 Get.off(WelcomeScreen());
               },
             ),

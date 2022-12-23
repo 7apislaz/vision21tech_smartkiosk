@@ -5,6 +5,7 @@ import 'package:vision21tech_smartkiosk/module/button.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/measurement_error.dart';
 import 'package:vision21tech_smartkiosk/theme.dart';
+import '../module/audio.dart';
 
 class HeightMeasure extends StatefulWidget {
   static String routeName = "/heightmeasure";
@@ -14,6 +15,7 @@ class HeightMeasure extends StatefulWidget {
 }
 
 class _HeightMeasureState extends State<HeightMeasure> {
+  ButtonAudios buttonAudios = ButtonAudios();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -30,6 +32,7 @@ class _HeightMeasureState extends State<HeightMeasure> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, size: 60,),
               onPressed: () {
+                buttonAudios.playAudio('assets/audios/button_effect.mp3');
                 Get.off(WelcomeScreen());
               },
             ),

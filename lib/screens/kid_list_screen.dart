@@ -131,7 +131,7 @@ class _KidListScreenState extends State<KidListScreen> {
                                         minimumSize: Size(260, 100),
                                       ),
                                       onPressed: () {
-                                        buttonAudios.playAudio('assets/audios/button_effect.mp3');
+                                        buttonAudios.playAudio('assets/audios/height_measure.mp3');
                                         Get.to(() => HeightMeasure());
                                       },
                                       child: Text(

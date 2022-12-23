@@ -26,6 +26,7 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
   Future initKids() async {
     kidsLists = await apiKidList.getAll();
   }
+  ButtonAudios initAudios = ButtonAudios();
   ButtonAudios buttonAudios = ButtonAudios();
   @override
   void initState() {
@@ -33,6 +34,7 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
     initKids().then((_) {
       setState(() {
         isLoading = false;
+        initAudios.playAudio("assets/audios/start_play.mp3");
       });
     });
   }
@@ -54,6 +56,7 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, size: 60,),
               onPressed: () {
+                buttonAudios.playAudio('assets/audios/button_effect.mp3');
                 Get.off(() => WelcomeScreen());
               },
             ),

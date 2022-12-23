@@ -15,6 +15,7 @@ class EmotionScreen extends StatefulWidget {
 
 class _EmotionScreenState extends State<EmotionScreen> {
   ButtonAudios buttonAudios = ButtonAudios();
+  ButtonAudios buttonAudios1 = ButtonAudios();
   final MyData myData = Get.put(MyData(
     emotion: '',
   ));
@@ -38,6 +39,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                 size: 60,
               ),
               onPressed: () {
+                buttonAudios.playAudio('assets/audios/button_effect.mp3');
                 Get.off(() => WelcomeScreen());
               },
             ),
@@ -241,6 +243,7 @@ class _EmotionScreenState extends State<EmotionScreen> {
                     ),
                     InkWell(
                       onTap: () {
+                        buttonAudios.playAudio('assets/audios/Emotion/lonely1.mp3');
                         Get.to(() => PlayingScreen(), arguments: [
                           myData.emotion = "LONELY",
                           myData.key,
