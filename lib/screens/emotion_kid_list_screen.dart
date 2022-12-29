@@ -34,7 +34,7 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
     initKids().then((_) {
       setState(() {
         isLoading = false;
-        initAudios.playAudio("assets/audios/start_play.mp3");
+        // initAudios.playAudio("assets/audios/kid_identify.mp3");
       });
     });
   }
@@ -56,7 +56,6 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, size: 60,),
               onPressed: () {
-                buttonAudios.playAudio('assets/audios/button_effect.mp3');
                 Get.off(() => WelcomeScreen());
               },
             ),
