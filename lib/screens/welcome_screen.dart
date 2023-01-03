@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/module/button.dart';
 import 'package:vision21tech_smartkiosk/screens/emotion_kid_list_screen.dart';
@@ -16,7 +15,6 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  GetStorage storage = GetStorage();
   ButtonAudios buttonAudios = ButtonAudios();
 
   @override
@@ -102,5 +100,4 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       ),
     );
   }
-
 }
