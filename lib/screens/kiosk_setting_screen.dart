@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:get/get.dart';
 import 'package:usb_serial/usb_serial.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
@@ -39,15 +40,71 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
   FocusNode myFocusNode4 = new FocusNode();
   FocusNode myFocusNode5 = new FocusNode();
 
-  final List<String> _portState = ["측정기 포트 연결"];
-  String? _myPort1;
-  String _port = '';
+  BluetoothState _bluetoothState = BluetoothState.UNKNOWN;
+  String _address = "...";
+  String _name = "...";
+
+  Timer? _discoverableTimeoutTimer;
+  int _discoverableTimeoutSecondsLeft = 0;
+
+  //final List<String> _portState = ["측정기 포트 연결"];
+  //String? _myPort1;
+  //String _port = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Get current state
+    FlutterBluetoothSerial.instance.state.then((state) {
+      setState(() {
+        _bluetoothState = state;
+      });
+    });
+
+    Future.doWhile(() async {
+      // Wait if adapter not enabled
+      if ((await FlutterBluetoothSerial.instance.isEnabled) ?? false) {
+        return false;
+      }
+      await Future.delayed(Duration(milliseconds: 0xDD));
+      return true;
+    }).then((_) {
+      // Update the address field
+      FlutterBluetoothSerial.instance.address.then((address) {
+        setState(() {
+          _address = address!;
+        });
+      });
+    });
+
+    FlutterBluetoothSerial.instance.name.then((name) {
+      setState(() {
+        _name = name!;
+      });
+    });
+
+    // Listen for futher state changes
+    FlutterBluetoothSerial.instance
+        .onStateChanged()
+        .listen((BluetoothState state) {
+      setState(() {
+        _bluetoothState = state;
+
+        // Discoverable mode is disabled when Bluetooth gets disabled
+        _discoverableTimeoutTimer = null;
+        _discoverableTimeoutSecondsLeft = 0;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
       child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
             fit: BoxFit.fill,
@@ -81,7 +138,7 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                         children: [
                           InkWell(
                             child: Container(
-                                width: 240,
+                                width: MediaQuery.of(context).size.width,
                                 height: 60,
                                 decoration: BoxDecoration(
                                   color: kOrangeButtonColor,
@@ -155,12 +212,16 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          Text("현재 키오스크 IP 주소는 ${storage.read('url')}입니다.",
+                          storage.read('url') == null
+                              ? Text("설정된 키오스크 IP 주소가 없습니다.",
+                              textScaleFactor: 1.5)
+                              : Text(
+                              "현재 키오스크 IP 주소는 ${storage.read('url')}입니다.",
                               textScaleFactor: 1.5),
                           SizedBox(height: 20),
                           InkWell(
                             child: Container(
-                                width: 240,
+                                width: MediaQuery.of(context).size.width,
                                 height: 60,
                                 decoration: BoxDecoration(
                                   color: kOrangeButtonColor,
@@ -287,12 +348,16 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                             textScaleFactor: 1.5,
                           ),
                           SizedBox(height: 10),
-                          Text("현재 발급받을 아이디는 ${storage.read('kgName')}입니다.",
+                          storage.read('kgName') == null
+                              ? Text("API-KEY를 발급받은 아이디가 없습니다.",
+                              textScaleFactor: 1.5)
+                              : Text(
+                              "현재 API-KEY를 발급받은 아이디는 ${storage.read('kgName')}입니다.",
                               textScaleFactor: 1.5),
                           SizedBox(height: 20),
                           InkWell(
                             child: Container(
-                                width: 240,
+                                width: MediaQuery.of(context).size.width,
                                 height: 60,
                                 decoration: BoxDecoration(
                                   color: kOrangeButtonColor,
@@ -300,14 +365,90 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                                 ),
                                 child: const Center(
                                   child: Text(
-                                    "측정기 포트 확인",
+                                    "블루투스/기기 연결 확인",
                                     textScaleFactor: 2,
                                     style: TextStyle(color: kWhiteFontColor),
                                   ),
                                 )),
                           ),
                           SizedBox(height: 20),
-                          InkWell(
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                Icons.bluetooth,
+                                size: 35,
+                                color: kOrangeButtonColor,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                "블루투스 끄기/켜기",
+                                textScaleFactor: 1.5,
+                              ),
+                              Spacer(),
+                              Switch(
+                                value: _bluetoothState.isEnabled,
+                                onChanged: (bool value) {
+                                  future() async {
+                                    if (value) {
+                                      await FlutterBluetoothSerial.instance
+                                          .requestEnable();
+                                    } else {
+                                      await FlutterBluetoothSerial.instance
+                                          .requestDisable();
+                                    }
+                                  }
+
+                                  future().then((_) {
+                                    setState(() {});
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Icon(
+                                Icons.bluetooth_connected,
+                                size: 35,
+                                color: kOrangeButtonColor,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                "블루투스 상태",
+                                textScaleFactor: 1.5,
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              _bluetoothState.toString() == "BluetoothState.STATE_ON" ? Text(
+                                "연결중"
+                              ) : Text("연결해제중"),
+                              Spacer(),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: kOrangeButtonColor,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), elevation: 3,
+                                ),
+                                  onPressed: () {
+                                  FlutterBluetoothSerial.instance.openSettings();
+                                  }, child: Text("기기 연결 설정"),
+                              ),
+                            ],
+                          ),
+                          /* InkWell(
                             child: Container(
                               height: 60,
                               child: DropdownButtonFormField(
@@ -373,22 +514,24 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                                 ),
                               ),
                             ),
-                          ),
+                          ), */
                         ],
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(
-                          top: 40, left: 80.0, right: 80.0, bottom: 80.0),
+                          top: 30, left: 80.0, right: 80.0, bottom: 80.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Divider(color: kGrayButtonColor, thickness: 1.0,),
+                          SizedBox(height: 30,),
                           Text(
                             "데이터 및 서버 통신 관련",
                             textScaleFactor: 2.6,
                           ),
                           SizedBox(height: 20),
-                          InkWell(
+                          /* InkWell(
                             onTap: () {
                               _usbConnect();
                             },
@@ -402,6 +545,20 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                             ),
                           ),
                           SizedBox(height: 10),
+                          InkWell(
+                            onTap: () {
+                              FlutterBluetoothSerial.instance.openSettings();
+                            },
+                            child: Container(
+                              padding: EdgeInsets.only(left: 20),
+                              child: Text(
+                                "블루투스 기기 연결 설정",
+                                textScaleFactor: 2.4,
+                                style: TextStyle(color: kGrayFontColor),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 10), */
                           InkWell(
                             onTap: () async {
                               getMigrate();
@@ -659,10 +816,10 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
                   titlePadding:
-                  EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
+                      EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
                   contentPadding: EdgeInsets.only(right: 30, left: 30),
                   actionsPadding:
-                  EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
+                      EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
                   title: Text("Error"),
                   content: Text(
                     "중복된 이름입니다.\n다른 이름으로 변경해주세요.",
@@ -950,70 +1107,6 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
             ],
           );
         });
-  }
-
-  void _usbConnect() async {
-    List<UsbDevice> devices = await UsbSerial.listDevices();
-    print(devices);
-    UsbPort? port;
-    if (devices.length == 0) {
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return AlertDialog(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                ),
-                titlePadding:
-                    EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
-                contentPadding: EdgeInsets.only(right: 30, left: 30),
-                actionsPadding:
-                    EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
-                title: Text("Error"),
-                content: Text(
-                  "측정기 연결을 확인해주세요.",
-                  style: TextStyle(
-                    fontFamily: 'Godo',
-                    fontWeight: FontWeight.normal,
-                    fontSize: 20,
-                    color: kDarkFontColor,
-                  ),
-                ),
-                actions: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      ),
-                      backgroundColor: kOrangeButtonColor,
-                      maximumSize: Size(130, 50),
-                      minimumSize: Size(130, 50),
-                    ),
-                    onPressed: () {
-                      Get.back();
-                    },
-                    child: Text(
-                      "확인",
-                      style: TextStyle(
-                        color: kDarkFontColor,
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ]);
-          });
-    }
-    port = await devices[0].create();
-    bool? openResult = await port?.open();
-    if (!openResult!) {
-      print("Failed to open");
-      return;
-    }
-    await port?.setDTR(true);
-    await port?.setRTS(true);
-    port?.setPortParameters(
-        9600, UsbPort.DATABITS_8, UsbPort.STOPBITS_1, UsbPort.PARITY_NONE);
   }
 
   void _ipVail(myError) async {
@@ -1319,4 +1412,69 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
               ]);
         });
   }
+
+// void _usbConnect() async {
+//   List<UsbDevice> devices = await UsbSerial.listDevices();
+//   print(devices);
+//   UsbPort? port;
+//   if (devices.length == 0) {
+//     showDialog(
+//         context: context,
+//         barrierDismissible: false,
+//         builder: (BuildContext context) {
+//           return AlertDialog(
+//               shape: RoundedRectangleBorder(
+//                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
+//               ),
+//               titlePadding:
+//                   EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
+//               contentPadding: EdgeInsets.only(right: 30, left: 30),
+//               actionsPadding:
+//                   EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
+//               title: Text("Error"),
+//               content: Text(
+//                 "측정기 연결을 확인해주세요.",
+//                 style: TextStyle(
+//                   fontFamily: 'Godo',
+//                   fontWeight: FontWeight.normal,
+//                   fontSize: 20,
+//                   color: kDarkFontColor,
+//                 ),
+//               ),
+//               actions: [
+//                 ElevatedButton(
+//                   style: ElevatedButton.styleFrom(
+//                     shape: RoundedRectangleBorder(
+//                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
+//                     ),
+//                     backgroundColor: kOrangeButtonColor,
+//                     maximumSize: Size(130, 50),
+//                     minimumSize: Size(130, 50),
+//                   ),
+//                   onPressed: () {
+//                     Get.back();
+//                   },
+//                   child: Text(
+//                     "확인",
+//                     style: TextStyle(
+//                       color: kDarkFontColor,
+//                       fontSize: 20,
+//                     ),
+//                   ),
+//                 ),
+//               ]);
+//         });
+//   }
+//   port = await devices[0].create();
+//   bool? openResult = await port?.open();
+//   if (!openResult!) {
+//     print("Failed to open");
+//     return;
+//   }
+//   await port?.setDTR(true);
+//   await port?.setRTS(true);
+//   port?.setPortParameters(
+//       9600, UsbPort.DATABITS_8, UsbPort.STOPBITS_1, UsbPort.PARITY_NONE);
+// }
+
 }
