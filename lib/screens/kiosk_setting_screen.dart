@@ -392,6 +392,7 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                               ),
                               Spacer(),
                               Switch(
+                                activeColor: kOrangeButtonColor,
                                 value: _bluetoothState.isEnabled,
                                 onChanged: (bool value) {
                                   future() async {
