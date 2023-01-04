@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/screens/height_measurement_screen.dart';
+import 'package:vision21tech_smartkiosk/screens/measuring_screen.dart';
+import 'package:vision21tech_smartkiosk/screens/select_bt_device.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 import 'package:vision21tech_smartkiosk/model/kid_list_api.dart';
 import '../module/audio.dart';
@@ -130,9 +133,23 @@ class _KidListScreenState extends State<KidListScreen> {
                                         maximumSize: Size(260, 100),
                                         minimumSize: Size(260, 100),
                                       ),
-                                      onPressed: () {
+                                      onPressed: () async {
                                         buttonAudios.playAudio('assets/audios/height_measure.mp3');
-                                        Get.to(() => HeightMeasure());
+                                          final BluetoothDevice? selectedDevice =
+                                              await Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return SelectDevicePage(checkAvailability: false);
+                                              },
+                                            ),
+                                          );
+
+                                          if (selectedDevice != null) {
+                                            print('Connect -> selected ' + selectedDevice.address);
+                                            _startMesuring(context, selectedDevice);
+                                          } else {
+                                            print('Connect -> no device selected');
+                                          }
                                       },
                                       child: Text(
                                         "맞아요!",
@@ -183,4 +200,15 @@ class _KidListScreenState extends State<KidListScreen> {
       ),
     );
   }
+
+  void _startMesuring(BuildContext context, BluetoothDevice server) {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return MesuringScreen(server: server);
+        },
+      ),
+    );
+  }
+
 }
