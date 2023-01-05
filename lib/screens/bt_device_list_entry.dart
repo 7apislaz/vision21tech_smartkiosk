@@ -13,15 +13,6 @@ class BluetoothDeviceListEntry extends ListTile {
     bool enabled = true,
   }) : super(
           onTap: onTap,
-          // onTap: () async {
-          //   final BluetoothDevice? selectedDevice =
-          //     await Get.to(() => MesuringScreen(), arguments: [sele]);
-          //   if (selectedDevice != null) {
-          //     print('Connect -> selected ' + selectedDevice.address);
-          //   } else {
-          //     print('Connect -> no device selected');
-          //   }
-          // },
           onLongPress: onLongPress,
           enabled: enabled,
           leading: Icon(Icons.devices),

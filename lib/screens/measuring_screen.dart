@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:get/get.dart';
+import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 
 import '../module/audio.dart';
@@ -81,8 +82,18 @@ class _MesuringScreenState extends State<MesuringScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final list = messages.map((_message) {
-                    (_message.text.trim());
+    final List<Row> list = messages.map((_message) {
+      return Row(
+        children: <Widget>[
+          Container(
+            child: Text(
+                    (text) {
+                  return text == '/shrug' ? '¯\\_(ツ)_/¯' : text;
+                }(_message.text.trim()),
+                style: TextStyle(color: kDarkFontColor)),
+            padding: EdgeInsets.all(12.0),
+            margin: EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
+      )]);
     }).toList();
 
     return WillPopScope(
@@ -129,11 +140,16 @@ class _MesuringScreenState extends State<MesuringScreen> {
                     SizedBox(height: 20),
                     Text("끝날 때까지 기다려 주세요.", textScaleFactor: 3.5,),
                     SizedBox(height: 20),
-                    Text("$list", textScaleFactor: 3.5,),
-                    SizedBox(height: 20),
+                    // Text("", textScaleFactor: 3.5,),
+                    // SizedBox(height: 20),
                   ],
                 ),
               ),
+              Flexible(
+                  child: ListView(
+                    padding: EdgeInsets.all(12.0),
+                    children: list,
+              ))
             ],
           ),
       ),
@@ -179,14 +195,12 @@ class _MesuringScreenState extends State<MesuringScreen> {
           ),
         );
         _messageBuffer = dataString.substring(index);
-        print(_messageBuffer);
       });
     } else {
       _messageBuffer = (backspacesCounter > 0
           ? _messageBuffer.substring(
           0, _messageBuffer.length - backspacesCounter)
           : _messageBuffer + dataString);
-      print(_messageBuffer);
     }
   }
 }
