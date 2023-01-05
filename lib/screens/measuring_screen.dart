@@ -55,8 +55,10 @@ class _MesuringScreenState extends State<MesuringScreen> {
         // If we didn't except this (no flag set), it means closing by remote.
         if (isDisconnecting) {
           print('Disconnecting locally!');
+          Get.back();
         } else {
           print('Disconnected remotely!');
+          Get.back();
         }
         if (this.mounted) {
           setState(() {});
@@ -82,18 +84,8 @@ class _MesuringScreenState extends State<MesuringScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Row> list = messages.map((_message) {
-      return Row(
-        children: <Widget>[
-          Container(
-            child: Text(
-                    (text) {
-                  return text == '/shrug' ? '¯\\_(ツ)_/¯' : text;
-                }(_message.text.trim()),
-                style: TextStyle(color: kDarkFontColor)),
-            padding: EdgeInsets.all(12.0),
-            margin: EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
-      )]);
+    final myda = messages.map((_message) {
+        return _message.text.toString();
     }).toList();
 
     return WillPopScope(
@@ -140,16 +132,11 @@ class _MesuringScreenState extends State<MesuringScreen> {
                     SizedBox(height: 20),
                     Text("끝날 때까지 기다려 주세요.", textScaleFactor: 3.5,),
                     SizedBox(height: 20),
-                    // Text("", textScaleFactor: 3.5,),
+                    Text("$myda", textScaleFactor: 3.5,),
                     // SizedBox(height: 20),
                   ],
                 ),
               ),
-              Flexible(
-                  child: ListView(
-                    padding: EdgeInsets.all(12.0),
-                    children: list,
-              ))
             ],
           ),
       ),
