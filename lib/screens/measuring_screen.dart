@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
+import 'package:vision21tech_smartkiosk/screens/height_measurement_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 
+import '../data/mydata.dart';
 import '../module/audio.dart';
 
 class MesuringScreen extends StatefulWidget {
@@ -25,6 +27,10 @@ class _Message {
 class _MesuringScreenState extends State<MesuringScreen> {
   ButtonAudios buttonAudios = ButtonAudios();
   BluetoothConnection? connection;
+  final MyData myData = Get.put(MyData(
+    kidHeight: '',
+    kidWeight: '',
+  ));
 
   List<_Message> messages = List<_Message>.empty(growable: true);
   String _messageBuffer = '';
@@ -33,6 +39,8 @@ class _MesuringScreenState extends State<MesuringScreen> {
   bool get isConnected => (connection?.isConnected ?? false);
 
   bool isDisconnecting = false;
+  bool _isHasHeight = false;
+  bool _isHasWeight = false;
 
   @override
   void initState() {
@@ -45,7 +53,7 @@ class _MesuringScreenState extends State<MesuringScreen> {
         isConnecting = false;
         isDisconnecting = false;
       });
-
+      buttonAudios.playAudio('assets/audios/height_measure.mp3');
       connection!.input!.listen(_onDataReceived).onDone(() {
         // Example: Detect which side closed the connection
         // There should be `isDisconnecting` flag to show are we are (locally)
@@ -55,10 +63,8 @@ class _MesuringScreenState extends State<MesuringScreen> {
         // If we didn't except this (no flag set), it means closing by remote.
         if (isDisconnecting) {
           print('Disconnecting locally!');
-          Get.back();
         } else {
           print('Disconnected remotely!');
-          Get.back();
         }
         if (this.mounted) {
           setState(() {});
@@ -84,9 +90,27 @@ class _MesuringScreenState extends State<MesuringScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final myda = messages.map((_message) {
-        return _message.text.toString();
+    final _myda = messages.map((_message) {
+      return _message.text.toString();
     }).toList();
+
+    if (_isHasHeight == true) {
+      _myda.sort((a, b) => a.length.compareTo(b.length));
+      if(_myda.length > 2){
+        if (_myda.last.length > _myda.first.length) {
+          final _kidHeight = _myda.last.split(",");
+          final myKidHeight = _kidHeight.last;
+          final myKidWeight = _kidHeight.first;
+          myData.kidHeight = myKidHeight;
+          myData.kidWeight = myKidWeight;
+          _isHasWeight = true;
+        }
+      }
+    }
+
+    if (_isHasWeight == true) {
+      _goNext();
+    }
 
     return WillPopScope(
         onWillPop: () async => false,
@@ -125,15 +149,22 @@ class _MesuringScreenState extends State<MesuringScreen> {
                 ),
               ),
               Padding(padding: const EdgeInsets.only(top:80, left: 100.0, right: 100.0, bottom: 180.0),
-                child: Column(
+                child: isConnected?
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("체중계 위에 서서 측정이", textScaleFactor: 3.5,),
                     SizedBox(height: 20),
                     Text("끝날 때까지 기다려 주세요.", textScaleFactor: 3.5,),
                     SizedBox(height: 20),
-                    Text("$myda", textScaleFactor: 3.5,),
                     // SizedBox(height: 20),
+                  ],
+                ): Column(mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("체중계와 연결중입니다.", textScaleFactor: 3.5,),
+                    SizedBox(height: 20),
+                    Text("잠시 기다려 주세요.", textScaleFactor: 3.5,),
+                    SizedBox(height: 20),
                   ],
                 ),
               ),
@@ -142,6 +173,9 @@ class _MesuringScreenState extends State<MesuringScreen> {
       ),
     ),
     );
+  }
+  void _goNext() {
+    Get.to(()=> HeightMeasure(), arguments: [myData.kidWeight, myData.kidHeight]);
   }
   void _onDataReceived(Uint8List data) {
     // Allocate buffer for parsed data
@@ -153,7 +187,6 @@ class _MesuringScreenState extends State<MesuringScreen> {
     });
     Uint8List buffer = Uint8List(data.length - backspacesCounter);
     int bufferIndex = buffer.length;
-
     // Apply backspace control character
     backspacesCounter = 0;
     for (int i = data.length - 1; i >= 0; i--) {
@@ -166,6 +199,7 @@ class _MesuringScreenState extends State<MesuringScreen> {
           buffer[--bufferIndex] = data[i];
         }
       }
+      _isHasHeight = true;
     }
 
     // Create message if there is new line character
