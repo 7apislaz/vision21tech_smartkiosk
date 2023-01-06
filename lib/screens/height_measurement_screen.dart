@@ -4,7 +4,7 @@ import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/module/button.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/measurement_error.dart';
-import 'package:vision21tech_smartkiosk/theme.dart';
+import '../data/mydata.dart';
 import '../module/audio.dart';
 
 class HeightMeasure extends StatefulWidget {
@@ -16,6 +16,7 @@ class HeightMeasure extends StatefulWidget {
 
 class _HeightMeasureState extends State<HeightMeasure> {
   ButtonAudios buttonAudios = ButtonAudios();
+  final MyData postData = Get.find();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -59,8 +60,8 @@ class _HeightMeasureState extends State<HeightMeasure> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    buildMyInfo("키 : ", 3, TextAlign.left, "", ""),
-                    buildMyInfo("몸무게 : ", 3, TextAlign.left, "", ""),
+                    buildMyInfo("키 : ", 3, TextAlign.center, "${postData.kidHeight}", "cm"),
+                    buildMyInfo("몸무게 : ", 3, TextAlign.center, "${postData.kidWeight}", "kg"),
                     SizedBox(height: 30),
                     buildMyInfo("키와 몸무게를 확인해 주세요", 3.5, TextAlign.center, "", ""),
                   ],
@@ -110,8 +111,8 @@ Widget buildMyInfo(String myText, double textScale, align, myData, description) 
         myText, textScaleFactor: textScale, textAlign: align
     ),
     title: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Text(
           myData,
