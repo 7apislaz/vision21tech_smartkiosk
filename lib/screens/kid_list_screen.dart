@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/screens/height_measurement_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/measuring_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/select_bt_device.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 import 'package:vision21tech_smartkiosk/model/kid_list_api.dart';
+import '../data/mydata.dart';
 import '../module/audio.dart';
 
 class KidListScreen extends StatefulWidget {
@@ -17,6 +19,10 @@ class KidListScreen extends StatefulWidget {
 }
 
 class _KidListScreenState extends State<KidListScreen> {
+  final kidInfo = GetStorage();
+  final MyData myData = Get.put(MyData(
+    key: '',
+  ));
   var kidName = '';
   var kidPic = '';
   List kidsLists = [];
@@ -89,6 +95,8 @@ class _KidListScreenState extends State<KidListScreen> {
                           buttonAudios.playAudio('assets/audios/hello_friend.mp3');
                           kidName = kidsLists[index]["name"]!;
                           kidPic = kidsLists[index]["pic"]!;
+                          myData.key = kidsLists[index]["key"];
+                          kidInfo.write('KidKey', '{$myData.key}');
                           showDialog(
                               context: context,
                               barrierDismissible: false,
@@ -134,7 +142,6 @@ class _KidListScreenState extends State<KidListScreen> {
                                         minimumSize: Size(260, 100),
                                       ),
                                       onPressed: () async {
-                                        buttonAudios.playAudio('assets/audios/height_measure.mp3');
                                           final BluetoothDevice? selectedDevice =
                                               await Navigator.of(context).push(
                                             MaterialPageRoute(
