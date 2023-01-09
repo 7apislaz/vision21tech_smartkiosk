@@ -5,6 +5,8 @@ import 'package:flutter_bluetooth_serial/flutter_bluetooth_serial.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/screens/height_measurement_screen.dart';
+import 'package:vision21tech_smartkiosk/screens/kid_list_screen.dart';
+import 'package:vision21tech_smartkiosk/screens/select_bt_device.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 
 import '../data/mydata.dart';
@@ -40,7 +42,6 @@ class _MesuringScreenState extends State<MesuringScreen> {
 
   bool isDisconnecting = false;
   bool _isHasHeight = false;
-  bool _isHasWeight = false;
 
   @override
   void initState() {
@@ -62,8 +63,114 @@ class _MesuringScreenState extends State<MesuringScreen> {
         // If we except the disconnection, `onDone` should be fired as result.
         // If we didn't except this (no flag set), it means closing by remote.
         if (isDisconnecting) {
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    titlePadding:
+                    EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
+                    contentPadding: EdgeInsets.only(right: 30, left: 30),
+                    actionsPadding:
+                    EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
+                    title: Text(
+                      "연결 해제",
+                      style: TextStyle(
+                        fontFamily: 'Godo',
+                        fontWeight: FontWeight.normal,
+                        fontSize: 20,
+                        color: kDarkFontColor,
+                      ),
+                    ),
+                    content: Text(
+                      "측정기가 로컬에서 연결이 해제되었습니다.\n다시 연결해주세요.",
+                      style: TextStyle(
+                        fontFamily: 'Godo',
+                        fontWeight: FontWeight.normal,
+                        fontSize: 20,
+                        color: kDarkFontColor,
+                      ),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          ),
+                          backgroundColor: kOrangeButtonColor,
+                          maximumSize: Size(130, 50),
+                          minimumSize: Size(130, 50),
+                        ),
+                        onPressed: () {
+                          Get.to(() => KidListScreen());
+                        },
+                        child: Text(
+                          "확인",
+                          style: TextStyle(
+                            color: kDarkFontColor,
+                          ),
+                        ),
+                      ),
+                    ]);
+              });
           print('Disconnecting locally!');
         } else {
+          showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    titlePadding:
+                    EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
+                    contentPadding: EdgeInsets.only(right: 30, left: 30),
+                    actionsPadding:
+                    EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
+                    title: Text(
+                      "연결 해제",
+                      style: TextStyle(
+                        fontFamily: 'Godo',
+                        fontWeight: FontWeight.normal,
+                        fontSize: 20,
+                        color: kDarkFontColor,
+                      ),
+                    ),
+                    content: Text(
+                      "측정기가 원격으로 연결이 해제되었습니다.\n다시 연결해주세요.",
+                      style: TextStyle(
+                        fontFamily: 'Godo',
+                        fontWeight: FontWeight.normal,
+                        fontSize: 20,
+                        color: kDarkFontColor,
+                      ),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          ),
+                          backgroundColor: kOrangeButtonColor,
+                          maximumSize: Size(130, 50),
+                          minimumSize: Size(130, 50),
+                        ),
+                        onPressed: () {
+                          Get.to(() => KidListScreen());
+                        },
+                        child: Text(
+                          "확인",
+                          style: TextStyle(
+                            color: kDarkFontColor,
+                          ),
+                        ),
+                      ),
+                    ]);
+              });
           print('Disconnected remotely!');
         }
         if (this.mounted) {
@@ -93,24 +200,21 @@ class _MesuringScreenState extends State<MesuringScreen> {
     final _myda = messages.map((_message) {
       return _message.text.toString();
     }).toList();
-
-    if (_isHasHeight == true) {
-      _myda.sort((a, b) => a.length.compareTo(b.length));
-      if(_myda.length > 2){
-        if (_myda.last.length > _myda.first.length) {
-          final _kidHeight = _myda.last.split(",");
-          final myKidHeight = _kidHeight.last;
-          final myKidWeight = _kidHeight.first;
-          myData.kidHeight = myKidHeight;
-          myData.kidWeight = myKidWeight;
-          _isHasWeight = true;
+    Future.delayed(Duration.zero,() {
+      if (_isHasHeight == true) {
+        if (_myda.last.length > 3) {
+          _myda.sort((a, b) => a.length.compareTo(b.length));
+          if (_myda.last.length > 5) {
+            final _kidHeight = _myda.last.split(",");
+            myData.kidHeight = _kidHeight.last;
+            myData.kidWeight = _kidHeight.first;
+            _isHasHeight = false;
+            _goNext();
+          }
         }
       }
-    }
+    });
 
-    if (_isHasWeight == true) {
-      _goNext();
-    }
 
     return WillPopScope(
         onWillPop: () async => false,
@@ -175,7 +279,7 @@ class _MesuringScreenState extends State<MesuringScreen> {
     );
   }
   void _goNext() {
-    Get.to(()=> HeightMeasure(), arguments: [myData.kidWeight, myData.kidHeight]);
+    Get.to(() => HeightMeasure(), arguments: [myData.kidWeight, myData.kidHeight]);
   }
   void _onDataReceived(Uint8List data) {
     // Allocate buffer for parsed data

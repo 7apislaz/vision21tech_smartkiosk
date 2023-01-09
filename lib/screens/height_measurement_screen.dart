@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
+import 'package:vision21tech_smartkiosk/model/apikidmeasure_providers.dart';
 import 'package:vision21tech_smartkiosk/module/button.dart';
+import 'package:vision21tech_smartkiosk/screens/kid_list_screen.dart';
+import 'package:vision21tech_smartkiosk/screens/measuring_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/measurement_error.dart';
 import '../data/mydata.dart';
@@ -17,21 +21,25 @@ class HeightMeasure extends StatefulWidget {
 class _HeightMeasureState extends State<HeightMeasure> {
   ButtonAudios buttonAudios = ButtonAudios();
   final MyData postData = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () async => false,
-    child: Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          fit: BoxFit.fill,
-          image: AssetImage('assets/images/background.png'),
+      onWillPop: () async => false,
+      child: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            fit: BoxFit.fill,
+            image: AssetImage('assets/images/background.png'),
+          ),
         ),
-      ),
-      child: Scaffold(
+        child: Scaffold(
           appBar: AppBar(
             leading: IconButton(
-              icon: Icon(Icons.arrow_back_rounded, size: 60,),
+              icon: Icon(
+                Icons.arrow_back_rounded,
+                size: 60,
+              ),
               onPressed: () {
                 buttonAudios.playAudio('assets/audios/button_effect.mp3');
                 Get.off(WelcomeScreen());
@@ -55,19 +63,61 @@ class _HeightMeasureState extends State<HeightMeasure> {
                   ),
                 ),
               ),
-              Padding(padding: const EdgeInsets.only(top: 40, left: 70),
+              Padding(
+                padding: const EdgeInsets.only(top: 40, left: 80.0, right: 80.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    buildMyInfo("키 : ", 3, TextAlign.center, "${postData.kidHeight}", "cm"),
-                    buildMyInfo("몸무게 : ", 3, TextAlign.center, "${postData.kidWeight}", "kg"),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "키와 몸무게를 확인해주세요!",
+                      textScaleFactor: 3.5,
+                    ),
                     SizedBox(height: 30),
-                    buildMyInfo("키와 몸무게를 확인해 주세요", 3.5, TextAlign.center, "", ""),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Icon(
+                          Icons.straighten,
+                          size: 35,
+                          color: kOrangeButtonColor,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                            "키 : ",
+                            textScaleFactor: 2.5,
+                        ),
+                        Text(
+                          "${postData.kidHeight}cm",
+                          textScaleFactor: 2.5,
+                        ),
+                        Spacer(),
+                        Icon(
+                          Icons.scale,
+                          size: 35,
+                          color: kOrangeButtonColor,
+                        ),
+                        SizedBox(
+                          width: 20,
+                        ),Text(
+                            "몸무게 : ",
+                            textScaleFactor: 2.5,
+                        ),
+                        Text(
+                          "${postData.kidWeight}kg",
+                          textScaleFactor: 2.5,
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
-              Padding(padding: const EdgeInsets.only(top:40, left: 60.0, right: 60.0, bottom: 130.0),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 40, left: 60.0, right: 60.0, bottom: 130.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -79,7 +129,9 @@ class _HeightMeasureState extends State<HeightMeasure> {
                       buttonColor: kOrangeButtonColor,
                       textStyle: Theme.of(context).textTheme.bodyText1,
                       onPressed: () {
-                        Get.to(() => MesureErrorScreen());
+                        PostKidMeasure kidsMeasure = PostKidMeasure(
+                            Pheight: '${postData.kidHeight}', Pweight: '${postData.kidWeight}', Pkey: '${postData.key}');
+                        kidsMeasure.postMeasureAll();
                       },
                     ),
                     SizedBox(width: 30),
@@ -91,7 +143,7 @@ class _HeightMeasureState extends State<HeightMeasure> {
                       buttonColor: kGrayButtonColor,
                       textStyle: Theme.of(context).textTheme.bodyText2,
                       onPressed: () {
-                        Get.to(() => WelcomeScreen());
+                        Get.to(() => KidListScreen());
                       },
                     ),
                   ],
@@ -103,32 +155,4 @@ class _HeightMeasureState extends State<HeightMeasure> {
       ),
     );
   }
-}
-
-Widget buildMyInfo(String myText, double textScale, align, myData, description) {
-  return ListTile(
-    leading: Text(
-        myText, textScaleFactor: textScale, textAlign: align
-    ),
-    title: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Text(
-          myData,
-          style: TextStyle(
-            color: kDarkFontColor,
-            fontFamily: 'Godo',
-            fontWeight: FontWeight.normal),
-        ),
-        Text(
-          description,
-          style: TextStyle(
-            color: kDarkFontColor,
-            fontFamily: 'Godo',
-            fontWeight: FontWeight.normal),
-        ),
-      ],
-    ),
-  );
 }
