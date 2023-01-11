@@ -9,7 +9,7 @@
            android:name="android.hardware.usb.host"
            android:required="true" />
    <application
-        android:label="vision21tech_smartkiosk"
+        android:label="키잼"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
