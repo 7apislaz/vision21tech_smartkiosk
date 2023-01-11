@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
+import 'package:vision21tech_smartkiosk/module/audio.dart';
 import 'package:vision21tech_smartkiosk/module/button.dart';
 import 'package:vision21tech_smartkiosk/screens/kiosk_setting_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
@@ -13,6 +14,7 @@ class NetworkErrorScreen extends StatefulWidget {
 }
 
 class _NetworkErrorScreenState extends State<NetworkErrorScreen> {
+  ButtonAudios buttonAudios = ButtonAudios();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -29,11 +31,10 @@ class _NetworkErrorScreenState extends State<NetworkErrorScreen> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, size: 60,),
               onPressed: () {
+                buttonAudios.playAudio('assets/audios/button_effect.mp3');
                 Get.off(WelcomeScreen());
               },
             ),
-            // title:
-            // Text('스마트 어린이집', style: textTheme().headline1),
           ),
           body: Center(
             child: Padding(padding: const EdgeInsets.only(top:80, left: 100.0, right: 100.0, bottom: 80.0),
@@ -47,6 +48,7 @@ class _NetworkErrorScreenState extends State<NetworkErrorScreen> {
                     Kiosk_Button(
                         text: '네트워크 설정하러 가기',
                         onPressed: () {
+                          buttonAudios.playAudio('assets/audios/button_effect.mp3');
                           Get.off(() => KioskSettingScreen());
                         },
                         maxiSize: Size(440, 80),

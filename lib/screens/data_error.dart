@@ -5,6 +5,8 @@ import 'package:vision21tech_smartkiosk/module/button.dart';
 import 'package:vision21tech_smartkiosk/screens/kiosk_setting_screen.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 
+import '../module/audio.dart';
+
 class DataErrorScreen extends StatefulWidget {
   static String routeName = "/dataerror";
 
@@ -13,6 +15,7 @@ class DataErrorScreen extends StatefulWidget {
 }
 
 class _DataErrorScreenState extends State<DataErrorScreen> {
+  ButtonAudios buttonAudios = ButtonAudios();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -29,6 +32,7 @@ class _DataErrorScreenState extends State<DataErrorScreen> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back_rounded, size: 60,),
             onPressed: () {
+              buttonAudios.playAudio('assets/audios/button_effect.mp3');
               Get.off(WelcomeScreen());
             },
           ),
@@ -47,6 +51,7 @@ class _DataErrorScreenState extends State<DataErrorScreen> {
                 Kiosk_Button(
                   text: '네트워크 설정하러 가기',
                   onPressed: () {
+                    buttonAudios.playAudio('assets/audios/button_effect.mp3');
                     Get.off(() => KioskSettingScreen());
                   },
                   maxiSize: Size(440, 80),

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
+import '../data/mydata.dart';
+import '../module/audio.dart';
 import 'emotion_screen.dart';
+import 'package:vision21tech_smartkiosk/model/kid_list_api.dart';
 
 class EmotionKidListScreen extends StatefulWidget {
   static String routeName = "/emotionkidlist";
@@ -12,9 +15,31 @@ class EmotionKidListScreen extends StatefulWidget {
 }
 
 class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
-  final List<String> _items = List.generate(30, (index) => 'Item ${index + 1}');
+  final MyData myData = Get.put(MyData(
+    key: '',
+  ));
+  var kidName = '';
+  var kidPic = '';
+  List kidsLists = [];
+  bool isLoading = true;
+  KidListApi apiKidList = KidListApi();
+  Future initKids() async {
+    kidsLists = await apiKidList.getAll();
+  }
+  ButtonAudios initAudios = ButtonAudios();
+  ButtonAudios buttonAudios = ButtonAudios();
+  @override
+  void initState() {
+    super.initState();
+    initKids().then((_) {
+      setState(() {
+        isLoading = false;
+        // initAudios.playAudio("assets/audios/kid_identify.mp3");
+      });
+    });
+  }
+  // final List<String> _items = List.generate(30, (index) => 'Item ${index + 1}');
 
-  var kidName = "";
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -31,11 +56,12 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, size: 60,),
               onPressed: () {
-                Get.off(WelcomeScreen());
+                Get.off(() => WelcomeScreen());
               },
             ),
           ),
-          body: SafeArea(
+          body: isLoading ? Center(child: const CircularProgressIndicator(),):
+          SafeArea(
             minimum: EdgeInsets.only(top: 60, bottom: 60, right: 60, left: 60),
             child: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
@@ -46,14 +72,14 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
                   crossAxisSpacing: 6,
                   childAspectRatio: 1 / 1.5,
                 ),
-                itemCount: _items.length,
+                itemCount: kidsLists.length,
                 itemBuilder: (context, index) => Card(
                   margin: const EdgeInsets.all(6),
                   elevation: 4,
                   child: GridTile(
                     footer: GridTileBar(
                       backgroundColor: kOrangeButtonColor,
-                      title: Text('아이 ${_items[index].split(' ')[1]}',
+                      title: Text(kidsLists[index]["name"]!,
                         style: TextStyle(
                             fontSize: 20,
                             color: kDarkFontColor,
@@ -64,7 +90,10 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
                     child: Center(
                       child: InkWell(
                         onTap: () {
-                          kidName = _items[index].split(' ')[1];
+                          buttonAudios.playAudio('assets/audios/hello_friend.mp3');
+                          kidName = kidsLists[index]["name"]!;
+                          kidPic = kidsLists[index]["pic"]!;
+                          myData.key = kidsLists[index]["key"];
                           showDialog(
                               context: context,
                               barrierDismissible: false,
@@ -77,7 +106,7 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
                                   actionsPadding: EdgeInsets.only(
                                       top: 60, bottom: 100, right: 60, left: 60),
                                   actionsAlignment: MainAxisAlignment.center,
-                                  title: Text('아이 $kidName 친구야 안녕!',
+                                  title: Text('$kidName 친구야 안녕!',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontFamily: 'Godo',
@@ -94,8 +123,7 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
                                             fit: BoxFit.contain,
-                                            image: AssetImage(
-                                                'assets/images/KioskAndKid.png'),
+                                            image: NetworkImage(kidPic),
                                           ),
                                         ),
                                         width: 400,
@@ -111,7 +139,10 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
                                         minimumSize: Size(260, 100),
                                       ),
                                       onPressed: () {
-                                        Get.to(() => EmotionScreen());
+                                        buttonAudios.playAudio('assets/audios/emotion_collect.mp3');
+                                        Get.to(() => EmotionScreen(), arguments: [
+                                          myData.key,
+                                        ]);
                                       },
                                       child: Text(
                                         "맞아요!",
@@ -128,6 +159,7 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
                                         minimumSize: Size(260, 100),
                                       ),
                                       onPressed: () {
+                                        buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                         Get.back();
                                       },
                                       child: Text(
@@ -146,7 +178,7 @@ class _EmotionKidListScreenState extends State<EmotionKidListScreen> {
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               fit: BoxFit.contain,
-                              image: AssetImage('assets/images/KioskAndKid.png'),
+                              image: NetworkImage(kidsLists[index]["pic"]),
                             ),
                           ),
                         ),

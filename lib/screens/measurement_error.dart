@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
+import 'package:vision21tech_smartkiosk/module/audio.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
 import 'package:vision21tech_smartkiosk/theme.dart';
 
@@ -12,6 +13,7 @@ class MesureErrorScreen extends StatefulWidget {
 }
 
 class _MesureErrorScreenState extends State<MesureErrorScreen> {
+  ButtonAudios buttonAudios = ButtonAudios();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -28,6 +30,7 @@ class _MesureErrorScreenState extends State<MesureErrorScreen> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back_rounded, size: 60,),
               onPressed: () {
+                buttonAudios.playAudio('assets/audios/button_effect.mp3');
                 Get.off(WelcomeScreen());
               },
             ),

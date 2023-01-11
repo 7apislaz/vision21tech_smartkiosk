@@ -37,7 +37,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   get: ^4.6.5
-  libserialport: ^0.3.0+1
+  permission_handler: ^10.2.0
+  usb_serial: ^0.4.0
+  http: ^0.13.5
+  just_audio: ^0.9.30
+  get_storage: ^2.0.3
+  flutter_bluetooth_serial: ^0.4.0
 
 dev_dependencies:
   flutter_test:
@@ -93,7 +98,9 @@ flutter:
   # see https://flutter.dev/custom-fonts/#from-packages
   assets:
     - assets/images/
-
+    - assets/audios/
+    - assets/audios/Emotion/
+    - assets/audios/play/
   fonts:
     - family: Godo
       fonts:

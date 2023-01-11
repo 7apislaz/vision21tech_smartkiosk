@@ -12,13 +12,13 @@ import 'package:vision21tech_smartkiosk/screens/network_error.dart';
 import 'package:vision21tech_smartkiosk/screens/playing_screen.dart';
 import 'screens/splash/splash_screen.dart';
 import 'screens/welcome_screen.dart';
+import 'screens/select_bt_device.dart';
 
 final Map<String, WidgetBuilder> route = {
   SplashScreen.routeName: (context) => SplashScreen(),
   WelcomeScreen.routeName: (context) => WelcomeScreen(),
   HeightMeasure.routeName: (context) => HeightMeasure(),
   MesureErrorScreen.routeName: (context) => MesureErrorScreen(),
-  MesuringScreen.routeName: (context) => MesuringScreen(),
   KioskSettingScreen.routeName: (context) => KioskSettingScreen(),
   NetworkErrorScreen.routeName: (context) => NetworkErrorScreen(),
   DataErrorScreen.routeName: (context) => DataErrorScreen(),
@@ -27,4 +27,5 @@ final Map<String, WidgetBuilder> route = {
   PlayingScreen.routeName: (context) => PlayingScreen(),
   KidListScreen.routeName: (context) => KidListScreen(),
   EmotionKidListScreen.routeName: (context) => EmotionKidListScreen(),
+  SelectDevicePage.routeName: (context) => SelectDevicePage(),
 };

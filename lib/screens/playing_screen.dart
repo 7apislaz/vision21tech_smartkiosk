@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:vision21tech_smartkiosk/constants.dart';
-import 'package:vision21tech_smartkiosk/module/button.dart';
-import 'package:vision21tech_smartkiosk/screens/kiosk_setting_screen.dart';
+import 'package:vision21tech_smartkiosk/model/apikidlist_providers.dart';
 import 'package:vision21tech_smartkiosk/screens/welcome_screen.dart';
-import '../mydata.dart';
+import '../data/mydata.dart';
+import '../module/audio.dart';
 
 class PlayingScreen extends StatefulWidget {
   static String routeName = "/playing";
@@ -15,8 +15,12 @@ class PlayingScreen extends StatefulWidget {
 
 class _PlayingScreenState extends State<PlayingScreen> {
   final MyData myData = Get.put(MyData(
-    playing: '',
+    selected_play: '',
   ));
+  final MyData postData = Get.find();
+  ButtonAudios buttonAudios = ButtonAudios();
+  ButtonAudios buttonAudios1 = ButtonAudios();
+  @override
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +41,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                 size: 60,
               ),
               onPressed: () {
+                buttonAudios.playAudio('assets/audios/button_effect.mp3');
                 Get.off(WelcomeScreen());
               },
             ),
@@ -78,7 +83,10 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
-                        myData.playing = "build";
+                        buttonAudios.playAudio('assets/audios/play/block.mp3');
+                        myData.selected_play = "BUILD";
+                        PostKidEmotions kidsEmotion = PostKidEmotions(
+                            Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -125,7 +133,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
-                                      Get.off(WelcomeScreen());
+                                      buttonAudios.playAudio("assets/start_play.mp3");
+                                      kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
                                       "맞아요!",
@@ -142,6 +151,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                       Get.back();
                                     },
                                     child: Text(
@@ -172,7 +182,10 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
-                        myData.playing = "mind";
+                        buttonAudios.playAudio('assets/audios/play/role.mp3');
+                        myData.selected_play = "MIND";
+                        PostKidEmotions kidsEmotion = PostKidEmotions(
+                            Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -219,7 +232,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
-                                      Get.off(WelcomeScreen());
+                                      buttonAudios.playAudio("assets/start_play.mp3");
+                                      kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
                                       "맞아요!",
@@ -236,6 +250,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                       Get.back();
                                     },
                                     child: Text(
@@ -272,7 +287,10 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
-                        myData.playing = "talk";
+                        buttonAudios.playAudio('assets/audios/play/language.mp3');
+                        myData.selected_play = "LANGUAGE";
+                        PostKidEmotions kidsEmotion = PostKidEmotions(
+                            Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -319,7 +337,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
-                                      Get.off(WelcomeScreen());
+                                      buttonAudios.playAudio("assets/start_play.mp3");
+                                      kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
                                       "맞아요!",
@@ -336,6 +355,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                       Get.back();
                                     },
                                     child: Text(
@@ -366,7 +386,10 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
-                        myData.playing = "nature";
+                        buttonAudios.playAudio('assets/audios/play/math.mp3');
+                        myData.selected_play = "NATURE";
+                        PostKidEmotions kidsEmotion = PostKidEmotions(
+                            Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -413,7 +436,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
-                                      Get.off(WelcomeScreen());
+                                      buttonAudios.playAudio("assets/start_play.mp3");
+                                      kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
                                       "맞아요!",
@@ -430,6 +454,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                       Get.back();
                                     },
                                     child: Text(
@@ -460,7 +485,10 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
-                        myData.playing = "imagine";
+                        buttonAudios.playAudio('assets/audios/play/art.mp3');
+                        myData.selected_play = "IMAGINE";
+                        PostKidEmotions kidsEmotion = PostKidEmotions(
+                            Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -507,7 +535,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
-                                      Get.off(WelcomeScreen());
+                                      buttonAudios.playAudio("assets/start_play.mp3");
+                                      kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
                                       "맞아요!",
@@ -524,6 +553,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                       Get.back();
                                     },
                                     child: Text(
@@ -560,7 +590,10 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
-                        myData.playing = "sound";
+                        buttonAudios.playAudio('assets/audios/play/music.mp3');
+                        myData.selected_play = "SOUND";
+                        PostKidEmotions kidsEmotion = PostKidEmotions(
+                            Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -607,7 +640,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
-                                      Get.off(WelcomeScreen());
+                                      buttonAudios.playAudio("assets/start_play.mp3");
+                                      kidsEmotion.postEmotionAll();
                                     },
                                     child: Text(
                                       "맞아요!",
@@ -624,6 +658,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                       Get.back();
                                     },
                                     child: Text(
@@ -654,7 +689,10 @@ class _PlayingScreenState extends State<PlayingScreen> {
                         height: 200,
                       ),
                       onTap: () {
-                        myData.playing = "teacher";
+                        buttonAudios.playAudio('assets/audios/play/talk.mp3');
+                        myData.selected_play = "TALK";
+                        PostKidEmotions kidsEmotions = PostKidEmotions(
+                            Pemotion: '${myData.emotion}', Pselected_play: '${myData.selected_play}', Pkey: '${myData.key}');
                         showDialog(
                             context: context,
                             barrierDismissible: false,
@@ -701,7 +739,8 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
-                                      Get.off(WelcomeScreen());
+                                      buttonAudios.playAudio("assets/start_play.mp3");
+                                      kidsEmotions.postEmotionAll();
                                     },
                                     child: Text(
                                       "맞아요!",
@@ -718,6 +757,7 @@ class _PlayingScreenState extends State<PlayingScreen> {
                                       minimumSize: Size(260, 100),
                                     ),
                                     onPressed: () {
+                                      buttonAudios.playAudio('assets/audios/button_effect.mp3');
                                       Get.back();
                                     },
                                     child: Text(
