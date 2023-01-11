@@ -119,7 +119,7 @@ class _KioskSettingScreenState extends State<KioskSettingScreen> {
                 size: 60,
               ),
               onPressed: () {
-                Get.to(WelcomeScreen());
+                Get.to(() => WelcomeScreen());
               },
             ),
           ),
