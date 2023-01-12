@@ -24,6 +24,7 @@ class _HeightMeasureState extends State<HeightMeasure> {
 
   @override
   Widget build(BuildContext context) {
+    buttonAudios.playAudio('assets/audios/height_confirm.mp3');
     return WillPopScope(
       onWillPop: () async => false,
       child: Container(
@@ -143,7 +144,8 @@ class _HeightMeasureState extends State<HeightMeasure> {
                       buttonColor: kGrayButtonColor,
                       textStyle: Theme.of(context).textTheme.bodyText2,
                       onPressed: () {
-                        Get.to(() => KidListScreen());
+                        Get.back();
+                        buttonAudios.playAudio('assets/audios/height_measure.mp3');
                       },
                     ),
                   ],
