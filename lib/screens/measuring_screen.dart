@@ -178,6 +178,59 @@ class _MesuringScreenState extends State<MesuringScreen> {
         }
       });
     }).catchError((error) {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                ),
+                titlePadding:
+                EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
+                contentPadding: EdgeInsets.only(right: 30, left: 30),
+                actionsPadding:
+                EdgeInsets.only(top: 30, bottom: 30, right: 30, left: 30),
+                title: Text(
+                  "오류",
+                  style: TextStyle(
+                    fontFamily: 'Godo',
+                    fontWeight: FontWeight.normal,
+                    fontSize: 20,
+                    color: kDarkFontColor,
+                  ),
+                ),
+                content: Text(
+                  "오류가 발생했습니다.\n다시 시도해주세요.",
+                  style: TextStyle(
+                    fontFamily: 'Godo',
+                    fontWeight: FontWeight.normal,
+                    fontSize: 20,
+                    color: kDarkFontColor,
+                  ),
+                ),
+                actions: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                      ),
+                      backgroundColor: kOrangeButtonColor,
+                      maximumSize: Size(130, 50),
+                      minimumSize: Size(130, 50),
+                    ),
+                    onPressed: () {
+                      Get.to(() => KidListScreen());
+                    },
+                    child: Text(
+                      "확인",
+                      style: TextStyle(
+                        color: kDarkFontColor,
+                      ),
+                    ),
+                  ),
+                ]);
+          });
       print('Cannot connect, exception occured');
       print(error);
     });
@@ -191,28 +244,32 @@ class _MesuringScreenState extends State<MesuringScreen> {
       connection?.dispose();
       connection = null;
     }
-
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final _myda = messages.map((_message) {
+    final _myD = messages.map((_message) {
       return _message.text.toString();
     }).toList();
     Future.delayed(Duration.zero,() {
       if (_isHasHeight == true) {
-        if (_myda.last.length > 3) {
-          _myda.sort((a, b) => a.length.compareTo(b.length));
-          if (_myda.last.length > 5) {
-            final _kidHeight = _myda.last.split(",");
-            myData.kidHeight = _kidHeight.last;
-            myData.kidWeight = _kidHeight.first;
-            _isHasHeight = false;
-            _goNext();
+        if (_myD.last.contains("R")) {
+          buttonAudios.playAudio('assets/audios/measure_start.mp3');
+        }
+        if (_myD.last.contains("C")) {
+          buttonAudios.playAudio('assets/audios/measure_canceled.mp3');
+        }
+        if (_myD.last.contains(",")) {
+          final _kidWeight = _myD.last.replaceAll("\r", "");
+          final _kidHeight = _kidWeight.split(",");
+          myData.kidWeight = _kidHeight.first;
+          myData.kidHeight = _kidHeight.last;
+          _isHasHeight = false;
+          _goNext();
+          _myD.clear();
           }
         }
-      }
     });
 
 
